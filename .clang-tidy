@@ -1,0 +1,4 @@
+---
+Checks: '*,-google-*,-llvm-*,-fuchsia-*,-*-braces-around-statements,-readability-named-parameter,-cppcoreguidelines-pro-bounds-constant-array-index,-readability-static-accessed-through-instance'
+HeaderFilterRegex: '.*'
+...
