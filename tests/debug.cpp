@@ -10,6 +10,6 @@ int main(){
       std::getline(std::cin, t);
 
       c.read_algorithm(t);
-      std::cout << c;
+      std::cout << c << std::endl;
    }
 }
