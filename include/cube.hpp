@@ -267,9 +267,6 @@ private:
         {yellow, yellow, yellow, yellow, yellow, yellow, yellow, yellow, yellow}
     }}};
 
-    template<typename ...Args>
-    std::string colored_square(Args ...args);
-
     void turn_face(storage::size_type face, direction dir);
     void read_turn(const std::string& t);
     //void turn_to_canonical(std::string& t, const std::vector<std::pair<plane, direction>>& parity);

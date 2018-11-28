@@ -4,10 +4,6 @@
 #include <algorithm>
 #include <sstream>
 
-Cube::Cube(const std::string& scramble){
-    read_algorithm(scramble);
-}
-
 namespace {
     constexpr const char* WHITE =   "\x1b[37m";
     constexpr const char* GREEN =   "\x1b[32m";
@@ -17,28 +13,32 @@ namespace {
     constexpr const char* YELLOW =  "\x1b[33m";
     constexpr const char* RESET =   "\x1b[0m";
     constexpr const char* SQUARE =  "\u25FC";
+
+    template<typename ...Args>
+    std::string colored_square(Args ...args){
+        return (([](color c){
+            switch(c){
+                case white:
+                    return   WHITE + std::string{SQUARE} + RESET;
+                case green:
+                    return   GREEN + std::string{SQUARE} + RESET;
+                case red:
+                    return     RED + std::string{SQUARE} + RESET;
+                case blue:
+                    return    BLUE + std::string{SQUARE} + RESET;
+                case magenta:
+                    return MAGENTA + std::string{SQUARE} + RESET;
+                case yellow:
+                    return  YELLOW + std::string{SQUARE} + RESET;
+                default:
+                    return std::string{SQUARE};
+            }
+        }(args) + " ") + ... + '\b');
+    }
 }
 
-template<typename ...Args>
-std::string Cube::colored_square(Args ...args){
-    return (([](color c){
-        switch(c){
-            case white:
-                return   WHITE + std::string{SQUARE} + RESET;
-            case green:
-                return   GREEN + std::string{SQUARE} + RESET;
-            case red:
-                return     RED + std::string{SQUARE} + RESET;
-            case blue:
-                return    BLUE + std::string{SQUARE} + RESET;
-            case magenta:
-                return MAGENTA + std::string{SQUARE} + RESET;
-            case yellow:
-                return  YELLOW + std::string{SQUARE} + RESET;
-            default:
-                return std::string{SQUARE};
-        }
-    }(args) + " ") + ... + '\b');
+Cube::Cube(const std::string& scramble){
+    read_algorithm(scramble);
 }
 
 void Cube::turn_face(storage::size_type face, direction dir){
@@ -916,15 +916,15 @@ bool Cube::is_solved() const{
 }
 
 std::ostream& operator<<(std::ostream& out, Cube& c){
-   out   << "      " << c.colored_square(c.cube(c.UP, 0), c.cube(c.UP, 1), c.cube(c.UP, 2)) << "\n"
-         << "      " << c.colored_square(c.cube(c.UP, 3), c.cube(c.UP, 4), c.cube(c.UP, 5)) << "\n"
-         << "      " << c.colored_square(c.cube(c.UP, 6), c.cube(c.UP, 7), c.cube(c.UP, 8)) << "\n"
-         << c.colored_square(c.cube(c.LEFT, 0), c.cube(c.LEFT, 1), c.cube(c.LEFT, 2), c.cube(c.FRONT, 0), c.cube(c.FRONT, 1), c.cube(c.FRONT, 2), c.cube(c.RIGHT, 0), c.cube(c.RIGHT, 1), c.cube(c.RIGHT, 2), c.cube(c.BACK, 0), c.cube(c.BACK, 1), c.cube(c.BACK, 2)) << "\n"
-         << c.colored_square(c.cube(c.LEFT, 3), c.cube(c.LEFT, 4), c.cube(c.LEFT, 5), c.cube(c.FRONT, 3), c.cube(c.FRONT, 4), c.cube(c.FRONT, 5), c.cube(c.RIGHT, 3), c.cube(c.RIGHT, 4), c.cube(c.RIGHT, 5), c.cube(c.BACK, 3), c.cube(c.BACK, 4), c.cube(c.BACK, 5)) << "\n"
-         << c.colored_square(c.cube(c.LEFT, 6), c.cube(c.LEFT, 7), c.cube(c.LEFT, 8), c.cube(c.FRONT, 6), c.cube(c.FRONT, 7), c.cube(c.FRONT, 8), c.cube(c.RIGHT, 6), c.cube(c.RIGHT, 7), c.cube(c.RIGHT, 8), c.cube(c.BACK, 6), c.cube(c.BACK, 7), c.cube(c.BACK, 8)) << "\n"
-         << "      " << c.colored_square(c.cube(c.DOWN, 0), c.cube(c.DOWN, 1), c.cube(c.DOWN, 2)) << "\n"
-         << "      " << c.colored_square(c.cube(c.DOWN, 3), c.cube(c.DOWN, 4), c.cube(c.DOWN, 5)) << "\n"
-         << "      " << c.colored_square(c.cube(c.DOWN, 6), c.cube(c.DOWN, 7), c.cube(c.DOWN, 8));
+   out   << "      " << colored_square(c(Cube::UP, 0), c(Cube::UP, 1), c(Cube::UP, 2)) << "\n"
+         << "      " << colored_square(c(Cube::UP, 3), c(Cube::UP, 4), c(Cube::UP, 5)) << "\n"
+         << "      " << colored_square(c(Cube::UP, 6), c(Cube::UP, 7), c(Cube::UP, 8)) << "\n"
+         << colored_square(c(Cube::LEFT, 0), c(Cube::LEFT, 1), c(Cube::LEFT, 2), c(Cube::FRONT, 0), c(Cube::FRONT, 1), c(Cube::FRONT, 2), c(Cube::RIGHT, 0), c(Cube::RIGHT, 1), c(Cube::RIGHT, 2), c(Cube::BACK, 0), c(Cube::BACK, 1), c(Cube::BACK, 2)) << "\n"
+         << colored_square(c(Cube::LEFT, 3), c(Cube::LEFT, 4), c(Cube::LEFT, 5), c(Cube::FRONT, 3), c(Cube::FRONT, 4), c(Cube::FRONT, 5), c(Cube::RIGHT, 3), c(Cube::RIGHT, 4), c(Cube::RIGHT, 5), c(Cube::BACK, 3), c(Cube::BACK, 4), c(Cube::BACK, 5)) << "\n"
+         << colored_square(c(Cube::LEFT, 6), c(Cube::LEFT, 7), c(Cube::LEFT, 8), c(Cube::FRONT, 6), c(Cube::FRONT, 7), c(Cube::FRONT, 8), c(Cube::RIGHT, 6), c(Cube::RIGHT, 7), c(Cube::RIGHT, 8), c(Cube::BACK, 6), c(Cube::BACK, 7), c(Cube::BACK, 8)) << "\n"
+         << "      " << colored_square(c(Cube::DOWN, 0), c(Cube::DOWN, 1), c(Cube::DOWN, 2)) << "\n"
+         << "      " << colored_square(c(Cube::DOWN, 3), c(Cube::DOWN, 4), c(Cube::DOWN, 5)) << "\n"
+         << "      " << colored_square(c(Cube::DOWN, 6), c(Cube::DOWN, 7), c(Cube::DOWN, 8));
 
    return out;
 }
