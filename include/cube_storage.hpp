@@ -4,7 +4,7 @@
 #include <array>
 
 template<typename T>
-struct cube_storage{
+struct CubeStorage{
     using storage = std::array<std::array<T, 9>, 6>;
 
     storage data;

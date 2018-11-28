@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 project(RubikSolver VERSION 0.0.1 LANGUAGES CXX)
 
+# Macro to debug
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
+
 # Link this 'library' to use the standard warnings
 add_library(project_warnings INTERFACE)
 
@@ -24,8 +27,25 @@ if(ENABLE_CLANG_TIDY)
   endif()
 endif()
 
+# Builds utilities library
+add_library(utilities source/utilities.cpp)
+target_link_libraries(utilities PRIVATE project_options project_warnings)
+
+# Builds the cube class
 add_library(cube source/cube.cpp)
 target_link_libraries(cube PRIVATE project_options project_warnings)
 
+# Builds the methods for the cube
+add_library(old_pochmann_corners source/old_pochmann_corners.cpp)
+target_link_libraries(old_pochmann_corners PRIVATE project_options project_warnings)
+add_library(old_pochmann_edges source/old_pochmann_edges.cpp)
+target_link_libraries(old_pochmann_edges PRIVATE project_options project_warnings)
+
+# Builds the executables
 add_executable(debug tests/debug.cpp)
-target_link_libraries(debug PRIVATE project_options project_warnings cube)
+target_link_libraries(debug PRIVATE project_options project_warnings
+                        cube)
+
+add_executable(main source/main.cpp)
+target_link_libraries(main PRIVATE project_options project_warnings
+                        cube old_pochmann_corners old_pochmann_edges utilities)

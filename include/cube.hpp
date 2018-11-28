@@ -10,11 +10,26 @@
 
 enum color {white, green, red, blue, magenta, yellow};
 enum direction {clock_wise, anti_clock_wise, two_turns};
-enum plane {xy, yz, xz};
 
 class Cube{
+private:
+    using storage = CubeStorage<color>;
 public:
-    Cube() = default;
+    Cube()                             = default;
+    Cube(const Cube& other)            = default;
+    Cube(Cube&& other)                 = default;
+    Cube& operator=(const Cube& other) = default;
+    Cube& operator=(Cube&& other)      = default;
+    ~Cube()                            = default;
+
+    explicit Cube(const std::string& scramble);
+
+    static constexpr auto UP    = storage::UP;
+    static constexpr auto FRONT = storage::FRONT;
+    static constexpr auto RIGHT = storage::RIGHT;
+    static constexpr auto BACK  = storage::BACK;
+    static constexpr auto LEFT  = storage::LEFT;
+    static constexpr auto DOWN  = storage::DOWN;
 
     // Canonical turns
     void U();
@@ -167,17 +182,82 @@ public:
     const color& LD() const;
 
 
+    // Center stickers accessors
+    const color& Uc() const;
+    const color& Fc() const;
+    const color& Rc() const;
+    const color& Bc() const;
+    const color& Lc() const;
+    const color& Dc() const;
+
+
     // Other functions
     bool is_solved() const;
-    std::string inverse_algorithm(std::string alg);
     void read_algorithm(const std::string& alg);
-    //std::string algorithm_to_canonical(const std::string& alg);
+    const color& read_position(const std::string& pos) const;
+
+    using value_type             = typename storage::value_type;
+    using size_type              = typename storage::size_type;
+    using reference              = typename storage::reference;
+    using const_reference        = typename storage::const_reference;
+    using iterator               = typename storage::iterator;
+    using const_iterator         = typename storage::const_iterator;
+    using reverse_iterator       = typename storage::reverse_iterator;
+    using const_reverse_iterator = typename storage::const_reverse_iterator;
+
+    constexpr typename value_type::reference operator()(size_type face, size_type pos) noexcept {
+        return cube(face, pos);
+    }
+    constexpr typename value_type::const_reference operator()(size_type face, size_type pos) const noexcept {
+        return cube(face, pos);
+    }
+
+
+    constexpr iterator begin() noexcept{
+        return cube.begin();
+    }
+    constexpr const_iterator begin() const noexcept{
+        return cube.begin();
+    }
+
+    constexpr iterator end() noexcept{
+        return cube.end();
+    }
+    constexpr const_iterator end() const noexcept{
+        return cube.end();
+    }
+
+    constexpr reverse_iterator rbegin() noexcept{
+        return cube.rbegin();
+    }
+    constexpr const_reverse_iterator rbegin() const noexcept{
+        return cube.rbegin();
+    }
+
+    constexpr reverse_iterator rend() noexcept{
+        return cube.rend();
+    }
+    constexpr const_reverse_iterator rend() const noexcept{
+        return cube.rend();
+    }
+
+    constexpr const_iterator cbegin() noexcept{
+        return cube.cbegin();
+    }
+    constexpr const_iterator cend() noexcept{
+        return cube.cend();
+    }
+
+    constexpr const_reverse_iterator crbegin() noexcept{
+        return cube.crbegin();
+    }
+    constexpr const_reverse_iterator crend() noexcept{
+        return cube.crend();
+    }
 
     friend std::ostream& operator<<(std::ostream& out, Cube& c);
 
 private:
-    using storage = cube_storage<color>;
-
     storage cube{{{ // <-- This is bulls***. Please help
         {white, white, white, white, white, white, white, white, white},
         {green, green, green, green, green, green, green, green, green},
@@ -186,13 +266,6 @@ private:
         {magenta, magenta, magenta, magenta, magenta, magenta, magenta, magenta, magenta},
         {yellow, yellow, yellow, yellow, yellow, yellow, yellow, yellow, yellow}
     }}};
-
-    static constexpr auto UP    = storage::UP;
-    static constexpr auto FRONT = storage::FRONT;
-    static constexpr auto RIGHT = storage::RIGHT;
-    static constexpr auto BACK  = storage::BACK;
-    static constexpr auto LEFT  = storage::LEFT;
-    static constexpr auto DOWN  = storage::DOWN;
 
     template<typename ...Args>
     std::string colored_square(Args ...args);

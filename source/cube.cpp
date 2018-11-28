@@ -1,8 +1,12 @@
 #include "cube_storage.hpp"
 #include "cube.hpp"
 
-#include <sstream>
 #include <algorithm>
+#include <sstream>
+
+Cube::Cube(const std::string& scramble){
+    read_algorithm(scramble);
+}
 
 namespace {
     constexpr const char* WHITE =   "\x1b[37m";
@@ -645,171 +649,193 @@ void Cube::z2(){
     F2(); S2(); B2();
 }
 
-const color& Cube::UFL(){
+const color& Cube::UFL() const{
     return cube(UP, 6);
 }
-const color& Cube::FLU(){
+const color& Cube::FLU() const{
     return cube(FRONT, 0);
 }
-const color& Cube::LUF(){
-    return cube(LEFT, 2)
+const color& Cube::LUF() const{
+    return cube(LEFT, 2);
 }
 
-const color& Cube::URF(){
+const color& Cube::URF() const{
     return cube(UP, 8);
 }
-const color& Cube::RFU(){
+const color& Cube::RFU() const{
     return cube(RIGHT, 0);
 }
-const color& Cube::FUR(){
+const color& Cube::FUR() const{
     return cube(FRONT, 2);
 }
 
-const color& Cube::UBR(){
+const color& Cube::UBR() const{
     return cube(UP, 2);
 }
-const color& Cube::BRU(){
+const color& Cube::BRU() const{
     return cube(BACK, 0);
 }
-const color& Cube::RUB(){
+const color& Cube::RUB() const{
     return cube(RIGHT, 2);
 }
 
-const color& Cube::ULB(){
+const color& Cube::ULB() const{
     return cube(UP, 0);
 }
-const color& Cube::LBU(){
+const color& Cube::LBU() const{
     return cube(LEFT, 0);
 }
-const color& Cube::BUL(){
+const color& Cube::BUL() const{
     return cube(BACK, 2);
 }
 
-const color& Cube::DLF(){
+const color& Cube::DLF() const{
     return cube(DOWN, 0);
 }
-const color& Cube::LFD(){
+const color& Cube::LFD() const{
     return cube(LEFT, 8);
 }
-const color& Cube::FDL(){
+const color& Cube::FDL() const{
     return cube(FRONT, 6);
 }
 
-const color& Cube::DFR(){
+const color& Cube::DFR() const{
     return cube(DOWN, 2);
 }
-const color& Cube::FRD(){
+const color& Cube::FRD() const{
     return cube(FRONT, 8);
 }
-const color& Cube::RDF(){
+const color& Cube::RDF() const{
     return cube(RIGHT, 6);
 }
 
-const color& Cube::DRB(){
+const color& Cube::DRB() const{
     return cube(DOWN, 8);
 }
-const color& Cube::RBD(){
+const color& Cube::RBD() const{
     return cube(RIGHT, 8);
 }
-const color& Cube::BDR(){
+const color& Cube::BDR() const{
     return cube(BACK, 6);
 }
 
-const color& Cube::DBL(){
+const color& Cube::DBL() const{
     return cube(DOWN, 6);
 }
-const color& Cube::BLD(){
+const color& Cube::BLD() const{
     return cube(BACK, 8);
 }
-const color& Cube::LDB(){
+const color& Cube::LDB() const{
     return cube(LEFT, 6);
 }
 
 
 // Edge stickers accessors
-const color& Cube::UF(){
+const color& Cube::UF() const{
     return cube(UP, 7);
 }
-const color& Cube::FU(){
+const color& Cube::FU() const{
     return cube(FRONT, 1);
 }
 
-const color& Cube::UR(){
+const color& Cube::UR() const{
     return cube(UP, 5);
 }
-const color& Cube::RU(){
+const color& Cube::RU() const{
     return cube(RIGHT, 1);
 }
 
-const color& Cube::UB(){
+const color& Cube::UB() const{
     return cube(UP, 1);
 }
-const color& Cube::BU(){
+const color& Cube::BU() const{
     return cube(BACK, 1);
 }
 
-const color& Cube::UL(){
+const color& Cube::UL() const{
     return cube(UP, 3);
 }
-const color& Cube::LU(){
+const color& Cube::LU() const{
     return cube(LEFT, 1);
 }
 
-const color& Cube::FL(){
+const color& Cube::FL() const{
     return cube(FRONT, 3);
 }
-const color& Cube::LF(){
+const color& Cube::LF() const{
     return cube(LEFT, 5);
 }
 
-const color& Cube::FR(){
+const color& Cube::FR() const{
     return cube(FRONT, 5);
 }
-const color& Cube::RF(){
+const color& Cube::RF() const{
     return cube(RIGHT, 3);
 }
 
-const color& Cube::BR(){
+const color& Cube::BR() const{
     return cube(BACK, 3);
 }
-const color& Cube::RB(){
+const color& Cube::RB() const{
     return cube(RIGHT, 5);
 }
 
-const color& Cube::BL(){
+const color& Cube::BL() const{
     return cube(BACK, 5);
 }
-const color& Cube::LB(){
+const color& Cube::LB() const{
     return cube(LEFT, 3);
 }
 
-const color& Cube::DF(){
+const color& Cube::DF() const{
     return cube(DOWN, 1);
 }
-const color& Cube::FD(){
+const color& Cube::FD() const{
     return cube(FRONT, 7);
 }
 
-const color& Cube::DR(){
+const color& Cube::DR() const{
     return cube(DOWN, 5);
 }
-const color& Cube::RD(){
+const color& Cube::RD() const{
     return cube(RIGHT, 7);
 }
 
-const color& Cube::DB(){
+const color& Cube::DB() const{
     return cube(DOWN, 7);
 }
-const color& Cube::BD(){
+const color& Cube::BD() const{
     return cube(BACK, 7);
 }
 
-const color& Cube::DL(){
+const color& Cube::DL() const{
     return cube(DOWN, 3);
 }
-const color& Cube::LD(){
+const color& Cube::LD() const{
     return cube(LEFT, 7);
 }
+
+
+// Center stickers accessors
+const color& Cube::Uc() const{
+    return cube(UP, 4);
+}
+const color& Cube::Fc() const{
+    return cube(FRONT, 4);
+}
+const color& Cube::Rc() const{
+    return cube(RIGHT, 4);
+}
+const color& Cube::Bc() const{
+    return cube(BACK, 4);
+}
+const color& Cube::Lc() const{
+    return cube(LEFT, 4);
+}
+const color& Cube::Dc() const{
+    return cube(DOWN, 4);
+}
+
 
 void Cube::read_algorithm(const std::string& alg){
     std::stringstream ss(alg);
@@ -880,109 +906,6 @@ void Cube::read_algorithm(const std::string& alg){
         }
     }
 }
-
-std::string Cube::inverse_algorithm(std::string alg){
-    using namespace std::string_literals;
-    std::reverse(alg.begin(), alg.end());
-    std::stringstream ss(alg);
-    std::string turn, ret;
-
-    while (ss >> turn){
-        if (turn.size() == 1)
-            ret += turn + "' ";
-        else if (turn.size() == 2){
-            if (turn[0] == '\'')
-                ret += turn.back() + " "s;
-            else if (turn[0] == '2')
-                ret += turn.back() + "2 "s;
-        }
-    }
-
-    return ret;
-}
-
-/* WIP: Translate any algorithm to canonical moves (U, R, F, D, L, B)
-void Cube::turn_to_canonical(std::string& t)
-{
-   auto aux = std::tolower(t[0]);
-
-   if (aux == 'm' || aux == 'x' || aux == 'r' || aux == 'l'){
-      for (auto i : parity){
-         if (i.first == xy){
-
-         }
-         else if (i.first == xz){
-
-         }
-      }
-   }
-   else if (aux == 'e' || aux == 'y' || aux == 'u' || aux == 'd'){
-      for (auto i : parity){
-         if (i.first == xy){
-
-         }
-         else if (i.first == yz){
-
-         }
-      }
-   }
-   else if (aux == 's' || aux == 'z' || aux == 'f' || aux == 'b'){
-      for (auto i : parity){
-         if (i.first == yz){
-
-         }
-         else if (i.first == xz){
-
-         }
-      }
-   }
-   else{
-      t = "";
-   }
-}
-
-std::string Cube::algorithm_to_canonical(const std::string& alg){
-   std::stringstream ss(alg);
-   std::string ret;
-   std::string turn;
-
-   std::vector<std::pair<plane, direction>> parity;
-
-   while (ss >> turn){
-      if (turn == "M" || turn == "r'" || turn == "l" || turn == "x'"){
-         parity.emplace_back(yz, clock_wise);
-      }
-      else if (turn == "M'" || turn == "r" || turn == "l'" || turn == "x"){
-         parity.emplace_back(yz, anti_clock_wise);
-      }
-      else if (turn == "M2" || turn == "r2" || turn == "l2" || turn == "x2"){
-         parity.emplace_back(yz, two_turns);
-      }
-      else if (turn == "E" || turn == "u'" || turn == "d" || turn == "y'"){
-         parity.emplace_back(xz, clock_wise);
-      }
-      else if (turn == "E'" || turn == "u" || turn == "d'" || turn == "y"){
-         parity.emplace_back(xz, anti_clock_wise);
-      }
-      else if (turn == "E2" || turn == "u2" || turn == "d2" || turn == "y2"){
-         parity.emplace_back(xz, two_turns);
-      }
-      else if (turn == "S" || turn == "f" || turn == "b'" || turn == "z"){
-         parity.emplace_back(xy, clock_wise);
-      }
-      else if (turn == "S'" || turn == "f'" || turn == "b" || turn == "z'"){
-         parity.emplace_back(xy, anti_clock_wise);
-      }
-      else if (turn == "S2" || turn == "f2" || turn == "b2" || turn == "z2"){
-         parity.emplace_back(xy, two_turns);
-      }
-
-      ret += turn_to_canonical(turn, parity);
-   }
-
-   return ret;
-}
-*/
 
 bool Cube::is_solved() const{
    return std::all_of(cube.begin(), cube.end()-1, [](const auto& f){
