@@ -4,10 +4,10 @@
 #include <iostream>
 #include <string>
 
-#ifdef DEBUG
-    #define LOG(x) std::cout << (x) << std::endl;
-#else
+#ifdef NDEBUG
     #define LOG(x)
+#else
+    #define LOG(x) std::cout << (x) << std::endl;
 #endif
 
 auto random_scramble(std::size_t length = 20)    -> std::string;
