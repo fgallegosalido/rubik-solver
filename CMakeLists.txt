@@ -1,8 +1,5 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.12)
 project(RubikSolver VERSION 0.0.1 LANGUAGES CXX)
-
-# Macro to debug
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 
 # Link this 'library' to use the standard warnings
 add_library(project_warnings INTERFACE)
@@ -17,14 +14,28 @@ target_compile_options(project_warnings INTERFACE -Wall -Wextra -Wpedantic -Wsha
 
 
 option(ENABLE_CLANG_TIDY "Enable testing with clang-tidy" FALSE)
+option(ENABLE_CPPCHECK "Enable testing with cppcheck" FALSE)
 
 if(ENABLE_CLANG_TIDY)
-  find_program(CLANGTIDY clang-tidy)
-  if(CLANGTIDY)
-    set(CMAKE_CXX_CLANG_TIDY ${CLANGTIDY})
-  else()
-    message(SEND_ERROR "clang-tidy requested but executable not found")
-  endif()
+    find_program(CLANGTIDY clang-tidy)
+    if(CLANGTIDY)
+        set(CMAKE_CXX_CLANG_TIDY ${CLANGTIDY})
+    else()
+        message(SEND_ERROR "clang-tidy requested but executable not found")
+    endif()
+endif()
+
+if(ENABLE_CPPCHECK)
+    find_program(CPPCHECK cppcheck)
+    if(CPPCHECK)
+        set(CMAKE_CXX_CPPCHECK ${CPPCHECK}
+                --enable=warning,performance
+                --inconclusive
+                --force
+                --inline-suppr)
+    else()
+        message(SEND_ERROR "cppcheck requested but executable not found")
+    endif()
 endif()
 
 # Builds utilities library
