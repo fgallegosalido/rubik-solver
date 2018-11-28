@@ -13,7 +13,7 @@ void OldPochmannCorners::orientate_cube(){
         cube_ref.xx();
     else if (cube_ref.Lc() == white)
         cube_ref.z();
-    else if (cube_ref.Rc() == white)
+    else if (cube_ref.Dc() == white)
         cube_ref.x2();
 
     if (cube_ref.Rc() == green)

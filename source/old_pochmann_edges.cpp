@@ -5,12 +5,6 @@
 
 #pragma GCC diagnostic ignored "-Wswitch"
 
-#ifdef DEBUG
-    #define LOG(x) std::cout << (x) << std::endl;
-#else
-    #define LOG(x)
-#endif
-
 void OldPochmannEdges::orientate_cube(){
     if (cube_ref.Fc() == white)
         cube_ref.x();
@@ -20,7 +14,7 @@ void OldPochmannEdges::orientate_cube(){
         cube_ref.xx();
     else if (cube_ref.Lc() == white)
         cube_ref.z();
-    else if (cube_ref.Rc() == white)
+    else if (cube_ref.Dc() == white)
         cube_ref.x2();
 
     if (cube_ref.Rc() == green)
