@@ -24,10 +24,10 @@ void OldPochmannCorners::orientate_cube(){
         cube_ref.yy();
 }
 
-void OldPochmannCorners::throw_piece(const char* commutator){
-    cube_ref.read_algorithm(commutator);
+void OldPochmannCorners::throw_piece(const char* conjugation){
+    cube_ref.read_algorithm(conjugation);
     cube_ref.read_algorithm(algorithms::old_pochmann_corners::Ex);
-    cube_ref.read_algorithm(inverse_algorithm(commutator));
+    cube_ref.read_algorithm(inverse_algorithm(conjugation));
 }
 
 bool OldPochmannCorners::method_finished(){

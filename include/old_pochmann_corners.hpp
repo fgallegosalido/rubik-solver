@@ -4,33 +4,8 @@
 #include <string>
 
 #include "cube.hpp"
+#include "cube_algorithms.hpp"
 #include "method.hpp"
-
-namespace algorithms::old_pochmann_corners{
-    static constexpr const char* Ex = "R U' R' U' R U R' F' R U R' U' R' F R";
-
-    static constexpr const char* UFL = "F R'";
-    static constexpr const char* FLU = "F' D";
-    static constexpr const char* LUF = "F2";
-    static constexpr const char* URF = "F";
-    static constexpr const char* RFU = "R'";
-    static constexpr const char* FUR = "R2 D'";
-    static constexpr const char* UBR = "R D'";
-    static constexpr const char* BRU = "R' F";
-    static constexpr const char* RUB = "R2";
-    static constexpr const char* DLF = "F'";
-    static constexpr const char* LFD = "F2 R'";
-    static constexpr const char* FDL = "D";
-    static constexpr const char* DFR = "F' R'";
-    static constexpr const char* FRD = "R F";
-    static constexpr const char* RDF = "";
-    static constexpr const char* DRB = "R2 F";
-    static constexpr const char* RBD = "R";
-    static constexpr const char* BDR = "D'";
-    static constexpr const char* DBL = "D F'";
-    static constexpr const char* BLD = "D' R";
-    static constexpr const char* LDB = "D2";
-}
 
 class OldPochmannCorners : public Method{
 public:
@@ -38,7 +13,7 @@ public:
         : Method{ref, "Old Pochmann Corners"}{}
 
     void orientate_cube();
-    void throw_piece(const char* commutator);
+    void throw_piece(const char* conjugation);
     bool method_finished();
     [[nodiscard]] std::string apply_method() override;
 };
