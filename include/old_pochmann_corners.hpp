@@ -7,15 +7,17 @@
 #include "cube_algorithms.hpp"
 #include "method.hpp"
 
+// Class that implements the old-pochmann method for corners
 class OldPochmannCorners : public Method{
 public:
     explicit OldPochmannCorners(Cube &ref)
         : Method{ref, "Old Pochmann Corners"}{}
 
-    void orientate_cube();
-    void throw_piece(const char* conjugation);
-    bool method_finished();
-    [[nodiscard]] std::string apply_method() override;
+    std::string orientate_cube();
+    std::string throw_piece(const std::string &conjugation);
+
+    bool method_finished() override;
+    std::string apply_method() override;
 };
 
 #endif

@@ -1,7 +1,9 @@
 #include <algorithm>
+#include <array>
 #include <random>
 #include <sstream>
 #include <string>
+#include <cctype>
 
 std::string random_scramble(std::size_t length){
     std::random_device rd{};
@@ -43,6 +45,31 @@ std::string inverse_algorithm(const std::string &alg){
     }
 
     return ret;
+}
+
+std::size_t turn_count(const std::string &alg){
+    std::stringstream ss(alg);
+    std::string t;
+    std::size_t total = 0;
+
+    constexpr std::array<char, 6> one_move{'U','F','R','B','L','D'};
+    constexpr std::array<char, 3> two_moves{'M','S','E'};
+
+    while (ss >> t){
+        if (std::any_of(one_move.begin(), one_move.end(),
+            [&t](const auto m){
+                return std::toupper(t[0]) == m;
+            }
+        )) total += 1;
+
+        else if (std::any_of(two_moves.begin(), two_moves.end(),
+            [&t](const auto m){
+                return std::toupper(t[0]) == m;
+            }
+        )) total += 2;
+    }
+
+    return total;
 }
 
 

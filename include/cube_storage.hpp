@@ -3,11 +3,12 @@
 
 #include <array>
 
+// Class that abstracts the storage of the cube from its functionality
 template<typename T>
 struct CubeStorage{
     using storage = std::array<std::array<T, 9>, 6>;
 
-    storage data;
+    storage data;   // This is the representation in memory of the cube
 
     using value_type             = typename storage::value_type;
     using size_type              = typename storage::size_type;
@@ -18,6 +19,7 @@ struct CubeStorage{
     using reverse_iterator       = typename storage::reverse_iterator;
     using const_reverse_iterator = typename storage::const_reverse_iterator;
 
+    // To access a specific face, use these variables
     static constexpr size_type UP    = 0;
     static constexpr size_type FRONT = 1;
     static constexpr size_type RIGHT = 2;
@@ -25,6 +27,7 @@ struct CubeStorage{
     static constexpr size_type LEFT  = 4;
     static constexpr size_type DOWN  = 5;
 
+    // Access a specific sticker by face and position inside the face
     constexpr typename value_type::reference operator()(size_type face, size_type pos) noexcept {
         return data[face][pos];
     }
@@ -32,10 +35,8 @@ struct CubeStorage{
         return data[face][pos];
     }
 
-    /* Iterator functions to iterate through the storage
-     *
-     * It's based on the array's iterator, so this is just a wrapper
-     */
+    // Iterator functions to iterate through the storage
+    // It's based on the array's iterator, so this is just a wrapper
     constexpr iterator begin() noexcept{
         return data.begin();
     }

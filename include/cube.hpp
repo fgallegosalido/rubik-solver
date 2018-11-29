@@ -9,11 +9,13 @@
 #include "cube_storage.hpp"
 
 enum color {white, green, red, blue, magenta, yellow};
-enum direction {clock_wise, anti_clock_wise, two_turns};
 
 class Cube{
 private:
     using storage = CubeStorage<color>;
+
+    // This enumerate is used to decide wich direction a face is turned
+    enum direction {clock_wise, anti_clock_wise, two_turns};
 public:
     Cube()                             = default;
     Cube(const Cube& other)            = default;
@@ -22,8 +24,10 @@ public:
     Cube& operator=(Cube&& other)      = default;
     ~Cube()                            = default;
 
+    // A cube can be initialized with a scramble
     explicit Cube(const std::string& scramble);
 
+    // As in the storage, we can access a face by its name
     static constexpr auto UP    = storage::UP;
     static constexpr auto FRONT = storage::FRONT;
     static constexpr auto RIGHT = storage::RIGHT;
@@ -191,9 +195,11 @@ public:
     const color& Dc() const;
 
 
-    // Other functions
+    // Check if the cube is solved
     bool is_solved() const;
+    // Reads an algorithm as a string
     void read_algorithm(const std::string& alg);
+    // Reads a sticker position as a string
     const color& read_position(const std::string& pos) const;
 
     using value_type             = typename storage::value_type;
@@ -205,6 +211,7 @@ public:
     using reverse_iterator       = typename storage::reverse_iterator;
     using const_reverse_iterator = typename storage::const_reverse_iterator;
 
+    // Access a specific sticker by its face and position
     constexpr typename value_type::reference operator()(size_type face, size_type pos) noexcept {
         return cube(face, pos);
     }
@@ -213,6 +220,7 @@ public:
     }
 
 
+    // Iterator functions that lets you iterate through each face
     constexpr iterator begin() noexcept{
         return cube.begin();
     }
@@ -255,9 +263,11 @@ public:
         return cube.crend();
     }
 
-    friend std::ostream& operator<<(std::ostream& out, Cube& c);
+    // Prints the cube in the console in a fancy way
+    friend std::ostream& operator<<(std::ostream &out, Cube &c);
 
 private:
+    // The cube variable. It's always initialized as a solved cube
     storage cube{{{ // <-- This is bulls***. Please help
         {white, white, white, white, white, white, white, white, white},
         {green, green, green, green, green, green, green, green, green},
@@ -267,9 +277,9 @@ private:
         {yellow, yellow, yellow, yellow, yellow, yellow, yellow, yellow, yellow}
     }}};
 
+    // Some helper functions
     void turn_face(storage::size_type face, direction dir);
-    void read_turn(const std::string& t);
-    //void turn_to_canonical(std::string& t, const std::vector<std::pair<plane, direction>>& parity);
+    void read_turn(const std::string &t);
 };
 
 #endif

@@ -5,6 +5,9 @@
 #include <sstream>
 
 namespace {
+    // In this unnamed namespace we define all I need to print the cube.
+
+    // These are the variables that store the output color
     constexpr const char* WHITE =   "\x1b[37m";
     constexpr const char* GREEN =   "\x1b[32m";
     constexpr const char* RED =     "\x1b[31m";
@@ -14,6 +17,7 @@ namespace {
     constexpr const char* RESET =   "\x1b[0m";
     constexpr const char* SQUARE =  "\u25FC";
 
+    // Function that prints a variable amount of colored squares
     template<typename ...Args>
     std::string colored_square(Args ...args){
         return (([](color c){
@@ -41,6 +45,7 @@ Cube::Cube(const std::string& scramble){
     read_algorithm(scramble);
 }
 
+// This function turns the 9 squares of a face in a certain direction
 void Cube::turn_face(storage::size_type face, direction dir){
    switch (dir) {
       case clock_wise:
@@ -79,6 +84,9 @@ void Cube::turn_face(storage::size_type face, direction dir){
 }
 
 // Canonical turns
+// These turns must be hard-coded
+// It looks like so much repetition, but it's not,
+// so that's what have to be done
 void Cube::U(){
     // Exchange upper face squares
     turn_face(UP, clock_wise);
@@ -416,6 +424,7 @@ void Cube::L2(){
 }
 
 // Center layer turns
+// These ones also have to be hard-coded
 void Cube::M(){
     auto tmp = cube(UP, 1);
     cube(UP, 1) = cube(BACK, 7);
@@ -557,6 +566,7 @@ void Cube::S2(){
     std::swap(cube(DOWN, 3), cube(UP, 5));
 }
 
+// The rest of the turns can be implemented based on the previous ones
 // Fat canonical turns
 void Cube::u(){
     U(); Ee();
@@ -649,6 +659,8 @@ void Cube::z2(){
     F2(); S2(); B2();
 }
 
+// Accessors by the sticker namespace
+// Corner stickers accessors
 const color& Cube::UFL() const{
     return cube(UP, 6);
 }
@@ -728,7 +740,6 @@ const color& Cube::BLD() const{
 const color& Cube::LDB() const{
     return cube(LEFT, 6);
 }
-
 
 // Edge stickers accessors
 const color& Cube::UF() const{
@@ -836,74 +847,83 @@ const color& Cube::Dc() const{
     return cube(DOWN, 4);
 }
 
+// Helper function that reads a single turn
+void Cube::read_turn(const std::string& t){
+    if (t.size() == 1){  // The turn is clock-wise
+        if      (t[0] == 'U') U();
+        else if (t[0] == 'R') R();
+        else if (t[0] == 'F') F();
+        else if (t[0] == 'D') D();
+        else if (t[0] == 'B') B();
+        else if (t[0] == 'L') L();
+        else if (t[0] == 'M') M();
+        else if (t[0] == 'E') E();
+        else if (t[0] == 'S') S();
+        else if (t[0] == 'u') u();
+        else if (t[0] == 'r') r();
+        else if (t[0] == 'f') f();
+        else if (t[0] == 'd') d();
+        else if (t[0] == 'b') b();
+        else if (t[0] == 'l') l();
+        else if (t[0] == 'x') x();
+        else if (t[0] == 'y') y();
+        else if (t[0] == 'z') z();
+    }
+    else if (t.size() == 2){
+        if (t[1] == '\''){   // If the turn is anti-clock-wise
+            if      (t[0] == 'U') Uu();
+            else if (t[0] == 'R') Rr();
+            else if (t[0] == 'F') Ff();
+            else if (t[0] == 'D') Dd();
+            else if (t[0] == 'B') Bb();
+            else if (t[0] == 'L') Ll();
+            else if (t[0] == 'M') Mm();
+            else if (t[0] == 'E') Ee();
+            else if (t[0] == 'S') Ss();
+            else if (t[0] == 'u') uu();
+            else if (t[0] == 'r') rr();
+            else if (t[0] == 'f') ff();
+            else if (t[0] == 'd') dd();
+            else if (t[0] == 'b') bb();
+            else if (t[0] == 'l') ll();
+            else if (t[0] == 'x') xx();
+            else if (t[0] == 'y') yy();
+            else if (t[0] == 'z') zz();
+        }
+        else if (t[1] == '2'){   // If the turn is 180º
+            if      (t[0] == 'U') U2();
+            else if (t[0] == 'R') R2();
+            else if (t[0] == 'F') F2();
+            else if (t[0] == 'D') D2();
+            else if (t[0] == 'B') B2();
+            else if (t[0] == 'L') L2();
+            else if (t[0] == 'M') M2();
+            else if (t[0] == 'E') E2();
+            else if (t[0] == 'S') S2();
+            else if (t[0] == 'u') u2();
+            else if (t[0] == 'r') r2();
+            else if (t[0] == 'f') f2();
+            else if (t[0] == 'd') d2();
+            else if (t[0] == 'b') b2();
+            else if (t[0] == 'l') l2();
+            else if (t[0] == 'x') x2();
+            else if (t[0] == 'y') y2();
+            else if (t[0] == 'z') z2();
+        }
+    }
+}
+
 
 void Cube::read_algorithm(const std::string& alg){
+    // We assume each move is space-separated, otherwise it will not be
+    // done. That's why sstream is so convenient
+    // Maybe a more complex parser will be implemented (to allow move
+    // repetitions)
     std::stringstream ss(alg);
     std::string turn;
 
     while (ss >> turn){
-        if (turn.size() == 1){
-            if      (turn[0] == 'U') U();
-            else if (turn[0] == 'R') R();
-            else if (turn[0] == 'F') F();
-            else if (turn[0] == 'D') D();
-            else if (turn[0] == 'B') B();
-            else if (turn[0] == 'L') L();
-            else if (turn[0] == 'M') M();
-            else if (turn[0] == 'E') E();
-            else if (turn[0] == 'S') S();
-            else if (turn[0] == 'u') u();
-            else if (turn[0] == 'r') r();
-            else if (turn[0] == 'f') f();
-            else if (turn[0] == 'd') d();
-            else if (turn[0] == 'b') b();
-            else if (turn[0] == 'l') l();
-            else if (turn[0] == 'x') x();
-            else if (turn[0] == 'y') y();
-            else if (turn[0] == 'z') z();
-        }
-        else if (turn.size() == 2){
-            if (turn[1] == '\''){
-                if      (turn[0] == 'U') Uu();
-                else if (turn[0] == 'R') Rr();
-                else if (turn[0] == 'F') Ff();
-                else if (turn[0] == 'D') Dd();
-                else if (turn[0] == 'B') Bb();
-                else if (turn[0] == 'L') Ll();
-                else if (turn[0] == 'M') Mm();
-                else if (turn[0] == 'E') Ee();
-                else if (turn[0] == 'S') Ss();
-                else if (turn[0] == 'u') uu();
-                else if (turn[0] == 'r') rr();
-                else if (turn[0] == 'f') ff();
-                else if (turn[0] == 'd') dd();
-                else if (turn[0] == 'b') bb();
-                else if (turn[0] == 'l') ll();
-                else if (turn[0] == 'x') xx();
-                else if (turn[0] == 'y') yy();
-                else if (turn[0] == 'z') zz();
-            }
-            else if (turn[1] == '2'){
-                if      (turn[0] == 'U') U2();
-                else if (turn[0] == 'R') R2();
-                else if (turn[0] == 'F') F2();
-                else if (turn[0] == 'D') D2();
-                else if (turn[0] == 'B') B2();
-                else if (turn[0] == 'L') L2();
-                else if (turn[0] == 'M') M2();
-                else if (turn[0] == 'E') E2();
-                else if (turn[0] == 'S') S2();
-                else if (turn[0] == 'u') u2();
-                else if (turn[0] == 'r') r2();
-                else if (turn[0] == 'f') f2();
-                else if (turn[0] == 'd') d2();
-                else if (turn[0] == 'b') b2();
-                else if (turn[0] == 'l') l2();
-                else if (turn[0] == 'x') x2();
-                else if (turn[0] == 'y') y2();
-                else if (turn[0] == 'z') z2();
-            }
-        }
+        read_turn(turn);
     }
 }
 

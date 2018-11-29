@@ -1,23 +1,22 @@
 #include <iostream>
 
 #include "cube.hpp"
-#include "old_pochmann_corners.hpp"
-#include "old_pochmann_edges.hpp"
+#include "old_pochmann_solver.hpp"
 #include "utilities.hpp"
 
 int main(){
-    Cube c;
-    c.read_algorithm(random_scramble());
+    auto scramble = random_scramble();
+    Cube c{scramble};
 
-    std::cout << "Cubo con mezcla aleatoria:\n\n" << c << "\n" << std::endl;
+    std::cout << "Random Scramble: " << scramble             << "\n"
+              << c << std::endl;
 
-    OldPochmannCorners corners{c};
-    OldPochmannEdges edges{c};
+    OldPochmannSolver solver{c};
 
-    std::cout << "Resolviendo el cubo..." << std::endl;
+    std::cout << "\nSolving the cube...\n" << std::endl;
+    auto solution = solver.solve();
 
-    corners.apply_method();
-    edges.apply_method();
-
-    std::cout << "\nCubo resuelto:\n\n" << c << std::endl;
+    std::cout << "Solution: "        << solution             << "\n"
+              << "Number of turns: " << turn_count(solution) << "\n"
+              << c << std::endl;
 }

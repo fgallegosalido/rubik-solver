@@ -1,6 +1,7 @@
 #ifndef _CUBE_ALGORITHMS_HPP_
 #define _CUBE_ALGORITHMS_HPP_
 
+// Algorithms for the method PLL
 namespace algorithms::PLL{
    static constexpr const char* A1 = "x R' U R' D2 R U' R' D2 R2 x'";
    static constexpr const char* A2 = "x R2 D2 R U R' D2 R U' R x'";
@@ -25,6 +26,7 @@ namespace algorithms::PLL{
    static constexpr const char* G4 = "R U R' y' R2 u' R U' R' U R' u R2";
 }
 
+// Algorithms for the old-pochmann method for corners
 namespace algorithms::old_pochmann_corners{
     static constexpr const char* Ex = "R U' R' U' R U R' F' R U R' U' R' F R";
 
@@ -51,6 +53,7 @@ namespace algorithms::old_pochmann_corners{
     static constexpr const char* LDB = "D2";
 }
 
+// Algorithms for the old-pochmann method for edges
 namespace algorithms::old_pochmann_edges{
     static constexpr const char* Ex = "R U R' U' R' F R2 U' R' U' R U R' F'";
 
