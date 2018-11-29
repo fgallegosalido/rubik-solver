@@ -1,17 +1,18 @@
 #ifndef _METHOD_HPP_
 #define _METHOD_HPP_
 
-#include <memory>
+#include <string>
 #include "cube.hpp"
 
 class Method{
 protected:
     Cube &cube_ref;
+    const std::string &method_name;
 
 public:
-    explicit Method(Cube &ref) : cube_ref{ref}{};
-    virtual void apply_method() = 0;
-
+    explicit Method(Cube &ref, const std::string &name = "Default method name")
+        : cube_ref{ref}, method_name{name}{};
+    virtual std::string apply_method() = 0;
 };
 
 #endif

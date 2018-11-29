@@ -36,7 +36,7 @@ bool OldPochmannCorners::method_finished(){
     });
 }
 
-void OldPochmannCorners::apply_method(){
+std::string OldPochmannCorners::apply_method(){
     orientate_cube();
 
     while (!method_finished()){
@@ -129,4 +129,5 @@ void OldPochmannCorners::apply_method(){
                 throw_piece(algorithms::old_pochmann_corners::DBL);
         }
     }
+    return "";
 }

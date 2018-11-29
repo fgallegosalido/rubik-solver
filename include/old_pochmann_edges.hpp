@@ -37,12 +37,12 @@ namespace algorithms::old_pochmann_edges{
 class OldPochmannEdges : public Method{
 public:
     explicit OldPochmannEdges(Cube &ref)
-        : Method{ref}{}
+        : Method{ref, "Old Pochmann Edges"}{}
 
     void orientate_cube();
     void throw_piece(const char* commutator);
     bool method_finished();
-    void apply_method() override;
+    [[nodiscard]] std::string apply_method() override;
 };
 
 #endif

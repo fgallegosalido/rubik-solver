@@ -1,7 +1,6 @@
 #ifndef _OLD_POCHMANN_CORNERS_HPP_
 #define _OLD_POCHMANN_CORNERS_HPP_
 
-#include <memory>
 #include <string>
 
 #include "cube.hpp"
@@ -36,12 +35,12 @@ namespace algorithms::old_pochmann_corners{
 class OldPochmannCorners : public Method{
 public:
     explicit OldPochmannCorners(Cube &ref)
-        : Method{ref}{}
+        : Method{ref, "Old Pochmann Corners"}{}
 
     void orientate_cube();
     void throw_piece(const char* commutator);
     bool method_finished();
-    void apply_method() override;
+    [[nodiscard]] std::string apply_method() override;
 };
 
 #endif

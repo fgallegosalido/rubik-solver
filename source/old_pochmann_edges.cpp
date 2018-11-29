@@ -37,7 +37,7 @@ bool OldPochmannEdges::method_finished(){
     });
 }
 
-void OldPochmannEdges::apply_method(){
+std::string OldPochmannEdges::apply_method(){
     orientate_cube();
 
     while (!method_finished()){
@@ -142,4 +142,5 @@ void OldPochmannEdges::apply_method(){
                 throw_piece(algorithms::old_pochmann_edges::DL);
         }
     }
+    return "";
 }
