@@ -21,6 +21,9 @@ std::string random_scramble(std::size_t length){
         scramble += " ";
     }
 
+    if (length > 0)
+        scramble.pop_back();
+
     return scramble;
 }
 
@@ -43,6 +46,54 @@ std::string inverse_algorithm(const std::string &alg){
                 ret += turn.back() + "2 "s;
         }
     }
+
+    if (!ret.empty())
+        ret.pop_back();
+
+    return ret;
+}
+
+std::string cancel_moves(const std::string &alg){
+    std::stringstream ss(alg);
+    std::string to_cancel, turn, ret;
+
+    while (ss >> turn){
+        if (to_cancel.empty())
+            to_cancel = turn;
+        else if (to_cancel[0] != turn[0]){
+            ret += to_cancel + ' ';
+            to_cancel = turn;
+        }
+        else if (to_cancel.size() == 1){
+            if (turn.size() == 1)
+                to_cancel += '2';
+            else if (turn[1] == '\'')
+                to_cancel = "";
+            else if (turn[1] == '2')
+                to_cancel += '\'';
+        }
+        else if (to_cancel[1] == '\''){
+            if (turn.size() == 1)
+                to_cancel = "";
+            else if (turn[1] == '\'')
+                to_cancel[1] = '2';
+            else if (turn[1] == '2')
+                to_cancel.pop_back();
+        }
+        else if (to_cancel[1] == '2'){
+            if (turn.size() == 1)
+                to_cancel[1] = '\'';
+            else if (turn[1] == '\'')
+                to_cancel.pop_back();
+            else if (turn[1] == '2')
+                to_cancel = "";
+        }
+    }
+
+    if (to_cancel.empty())
+        ret.pop_back();
+    else
+        ret += to_cancel;
 
     return ret;
 }
