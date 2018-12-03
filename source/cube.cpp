@@ -914,7 +914,7 @@ void Cube::read_turn(const std::string& t){
 }
 
 
-void Cube::read_algorithm(const std::string& alg){
+void Cube::read_algorithm(const std::string &alg){
     // We assume each move is space-separated, otherwise it will not be
     // done. That's why sstream is so convenient
     // Maybe a more complex parser will be implemented (to allow move
@@ -925,6 +925,11 @@ void Cube::read_algorithm(const std::string& alg){
     while (ss >> turn){
         read_turn(turn);
     }
+}
+
+Cube& Cube::operator<<(const std::string &alg){
+    read_algorithm(alg);
+    return *this;
 }
 
 bool Cube::is_solved() const{

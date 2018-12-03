@@ -16,54 +16,39 @@ const bool& OldPochmannCorners::is_parity() const{
 std::string OldPochmannCorners::orientate_cube(){
     std::string orientation;
 
-    if (cube_ref.Fc() == white){
-        cube_ref.x();
+    if (cube_ref.Fc() == white)
         orientation += "x ";
-    }
-    else if (cube_ref.Rc() == white){
-        cube_ref.zz();
+    else if (cube_ref.Rc() == white)
         orientation += "z' ";
-    }
-    else if (cube_ref.Bc() == white){
-        cube_ref.xx();
+    else if (cube_ref.Bc() == white)
         orientation += "x' ";
-    }
-    else if (cube_ref.Lc() == white){
-        cube_ref.z();
+    else if (cube_ref.Lc() == white)
         orientation += "z ";
-    }
-    else if (cube_ref.Dc() == white){
-        cube_ref.x2();
+    else if (cube_ref.Dc() == white)
         orientation += "x2 ";
-    }
 
-    if (cube_ref.Rc() == green){
-        cube_ref.y();
+    if (cube_ref.Rc() == green)
         orientation += "y ";
-    }
-    else if (cube_ref.Bc() == green){
-        cube_ref.y2();
+    else if (cube_ref.Bc() == green)
         orientation += "y2 ";
-    }
-    else if (cube_ref.Lc() == green){
-        cube_ref.yy();
+    else if (cube_ref.Lc() == green)
         orientation += "y' ";
-    }
 
+    cube_ref << orientation;
     return orientation;
 }
 
 // This function throws the buffer piece to a specific position
 std::string OldPochmannCorners::throw_piece(const std::string &conjugation){
-    cube_ref.read_algorithm(conjugation);
-    cube_ref.read_algorithm(algorithms::old_pochmann_corners::Ex);
-    cube_ref.read_algorithm(inverse_algorithm(conjugation));
+    cube_ref << conjugation
+             << algorithms::old_pochmann_corners::Ex
+             << inverse_algorithm(conjugation);
 
-    parity = !parity;
+    change_parity();
 
-    return conjugation + " "
-            + algorithms::old_pochmann_corners::Ex + " "
-            + inverse_algorithm(conjugation) + " ";
+    return conjugation                          + " "
+         + algorithms::old_pochmann_corners::Ex + " "
+         + inverse_algorithm(conjugation)       + " ";
 }
 
 // Just check if the corners are solved

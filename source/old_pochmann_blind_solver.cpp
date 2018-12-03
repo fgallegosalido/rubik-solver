@@ -14,7 +14,7 @@ std::string OldPochmannBlindSolver::apply_parity(){
         edges_method.change_parity();
     }
 
-    cube_ref.read_algorithm(ret);
+    cube_ref << ret;
 
     return ret;
 }
@@ -23,7 +23,7 @@ std::string OldPochmannBlindSolver::solve(){
     std::string solution;
 
     solution += corners_method.apply_method();  // Apply corners method
-    solution += " " + apply_parity();     // Apply the parity
+    solution += " " + apply_parity();           // Apply the parity
     solution += edges_method.apply_method();    // Apply edges method
 
     return cancel_moves(solution);

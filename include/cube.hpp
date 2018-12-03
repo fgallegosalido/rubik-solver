@@ -199,6 +199,7 @@ public:
     bool is_solved() const;
     // Reads an algorithm as a string
     void read_algorithm(const std::string& alg);
+    Cube& operator<<(const std::string& alg);
     // Reads a sticker position as a string
     const color& read_position(const std::string& pos) const;
 
