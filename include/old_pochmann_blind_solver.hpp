@@ -4,20 +4,13 @@
 #include <string>
 #include "cube.hpp"
 #include "solver.hpp"
-#include "old_pochmann_corners.hpp"
-#include "old_pochmann_edges.hpp"
+#include "old_pochmann_solver.hpp"
 
 // This class implements a solver using full old-pochmann
-class OldPochmannBlindSolver : public Solver{
-private:
-    OldPochmannCorners corners_method;
-    OldPochmannEdges edges_method;
-    
+class OldPochmannBlindSolver : public OldPochmannSolver{
 public:
     explicit OldPochmannBlindSolver(Cube &ref)
-        : Solver{ref, "Full Old Pochmann Blind"},
-          corners_method{ref},
-          edges_method{ref}{}
+        : OldPochmannSolver{ref, "Full Old Pochmann Blind"}{}
 
     std::string apply_parity();
     std::string solve() override;
