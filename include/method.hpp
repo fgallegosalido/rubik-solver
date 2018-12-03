@@ -15,7 +15,7 @@ public:
     explicit Method(Cube &ref, const std::string &name = "Default method name")
         : cube_ref{ref}, method_name{name}{}
 
-    virtual bool method_finished() = 0;
+    virtual bool method_finished() const = 0;
     virtual std::string apply_method() = 0;
 };
 

@@ -5,6 +5,14 @@
 
 #pragma GCC diagnostic ignored "-Wswitch"
 
+void OldPochmannEdges::change_parity(){
+    parity = !parity;
+}
+
+const bool& OldPochmannEdges::is_parity() const{
+    return parity;
+}
+
 std::string OldPochmannEdges::orientate_cube(){
     std::string orientation;
 
@@ -50,12 +58,14 @@ std::string OldPochmannEdges::throw_piece(const std::string &conjugation){
     cube_ref.read_algorithm(algorithms::old_pochmann_edges::Ex);
     cube_ref.read_algorithm(inverse_algorithm(conjugation));
 
+    change_parity();
+
     return conjugation + " "
             + algorithms::old_pochmann_edges::Ex + " "
             + inverse_algorithm(conjugation) + " ";
 }
 
-bool OldPochmannEdges::method_finished(){
+bool OldPochmannEdges::method_finished() const{
     return std::all_of(cube_ref.begin(), cube_ref.end()-1, [](const auto& face){
         return face[1] == face[3] && face[3] == face[5] && face[5] == face[7];
     });
@@ -145,6 +155,12 @@ std::string OldPochmannEdges::apply_method(){
                 solution += throw_piece(algorithms::old_pochmann_edges::FD);
             else if (cube_ref.FR() != cube_ref.Fc())
                 solution += throw_piece(algorithms::old_pochmann_edges::FR);
+            else if (cube_ref.RF() != cube_ref.Rc())
+                solution += throw_piece(algorithms::old_pochmann_edges::RF);
+            else if (cube_ref.RD() != cube_ref.Rc())
+                solution += throw_piece(algorithms::old_pochmann_edges::RD);
+            else if (cube_ref.RB() != cube_ref.Rc())
+                solution += throw_piece(algorithms::old_pochmann_edges::RB);
             else if (cube_ref.BU() != cube_ref.Bc())
                 solution += throw_piece(algorithms::old_pochmann_edges::BU);
             else if (cube_ref.BR() != cube_ref.Bc())
@@ -172,6 +188,5 @@ std::string OldPochmannEdges::apply_method(){
         }
     }
 
-    solution.pop_back();    // Gets rid of the last space
-    return solution;
+    return cancel_moves(solution);
 }

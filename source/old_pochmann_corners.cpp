@@ -4,6 +4,14 @@
 #include "old_pochmann_corners.hpp"
 #include "utilities.hpp"
 
+void OldPochmannCorners::change_parity(){
+    parity = !parity;
+}
+
+const bool& OldPochmannCorners::is_parity() const{
+    return parity;
+}
+
 // To apply the method, the cube must be up-white and front-green
 std::string OldPochmannCorners::orientate_cube(){
     std::string orientation;
@@ -51,13 +59,15 @@ std::string OldPochmannCorners::throw_piece(const std::string &conjugation){
     cube_ref.read_algorithm(algorithms::old_pochmann_corners::Ex);
     cube_ref.read_algorithm(inverse_algorithm(conjugation));
 
+    parity = !parity;
+
     return conjugation + " "
             + algorithms::old_pochmann_corners::Ex + " "
             + inverse_algorithm(conjugation) + " ";
 }
 
 // Just check if the corners are solved
-bool OldPochmannCorners::method_finished(){
+bool OldPochmannCorners::method_finished() const{
     return std::all_of(cube_ref.begin(), cube_ref.end()-2, [](const auto& face){
         return face[0] == face[2] && face[2] == face[6] && face[6] == face[8];
     });
@@ -161,6 +171,5 @@ std::string OldPochmannCorners::apply_method(){
         }
     }
 
-    solution.pop_back();    // Gets rid of the last space
-    return solution;
+    return cancel_moves(solution);
 }
