@@ -15,6 +15,6 @@ int main(){
         if (t == "q" || t == "quit")
             break;
 
-        c.read_algorithm(t);
+        c << t;
     }
 }
