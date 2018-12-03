@@ -2,6 +2,7 @@
 #define _SOLVER_HPP_
 
 #include <string>
+#include <utility>
 #include "cube.hpp"
 
 // This abstract class describes the needed method for a solver
@@ -10,11 +11,11 @@
 class Solver {
 protected:
     Cube &cube_ref;                 // A reference to the cube being solved
-    const std::string &solver_name; // The solver name
+    const std::string solver_name; // The solver name
 
 public:
-    explicit Solver(Cube &ref, const std::string &name_ = "Default solver name")
-        : cube_ref{ref}, solver_name{name_}{}
+    explicit Solver(Cube &ref, std::string name_ = "Default solver name")
+        : cube_ref{ref}, solver_name{std::move(name_)}{}
 
     // A solver shouldn't be copied, so we delete those destructors
     Solver(const Solver&)            = delete;

@@ -2,6 +2,7 @@
 #define _METHOD_HPP_
 
 #include <string>
+#include <utility>
 #include "cube.hpp"
 
 // This abstract class lets you implement a method.
@@ -9,11 +10,11 @@
 class Method{
 protected:
     Cube &cube_ref;                 // A reference to the cube being solved
-    const std::string &method_name; // The method name
+    const std::string method_name; // The method name
 
 public:
-    explicit Method(Cube &ref, const std::string &name_ = "Default method name")
-        : cube_ref{ref}, method_name{name_}{}
+    explicit Method(Cube &ref, std::string name_ = "Default method name")
+        : cube_ref{ref}, method_name{std::move(name_)}{}
 
     // A method shouldn't be copied, so we delete those destructors
     Method(const Method&)            = delete;

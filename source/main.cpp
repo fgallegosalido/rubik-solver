@@ -13,7 +13,7 @@ int main(){
 
     OldPochmannBlindSolver solver{c};
 
-    std::cout << "\nSolving the cube..." /*<< solver.name()*/ << "\n" << std::endl;
+    std::cout << "\nSolving the cube using " << solver.name() << "\n" << std::endl;
     auto solution = solver.solve();
 
     std::cout << "Solution: "        << solution             << "\n"
