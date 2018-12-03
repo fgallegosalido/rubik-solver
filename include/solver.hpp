@@ -16,6 +16,13 @@ public:
     explicit Solver(Cube &ref, const std::string &name = "Default solver name")
         : cube_ref{ref}, solver_name{name}{}
 
+    Solver(const Solver&)            = delete;
+    Solver(Solver&&)                 = delete;
+    Solver& operator=(const Solver&) = delete;
+    Solver& operator=(Solver&&)      = delete;
+
+    virtual ~Solver()                = default;
+
     bool is_solved() const{
         return cube_ref.is_solved();
     }
