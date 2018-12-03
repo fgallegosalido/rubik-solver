@@ -5,11 +5,13 @@
 std::string OldPochmannBlindSolver::apply_parity(){
     std::string ret;
 
+    // If there's parity, we solve it
     if (corners_method.is_parity()){
         ret += "U' ";
         ret += algorithms::PLL::R1;
         ret += " U ";
 
+        // We need to change both parities;
         corners_method.change_parity();
         edges_method.change_parity();
     }

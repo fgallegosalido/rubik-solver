@@ -6,7 +6,8 @@
 #include "solver.hpp"
 #include "old_pochmann_solver.hpp"
 
-// This class implements a solver using full old-pochmann
+// This class implements a solver using full old-pochmann, but
+// mindind about parities, so it could be used for blind
 class OldPochmannBlindSolver : public OldPochmannSolver{
 public:
     explicit OldPochmannBlindSolver(Cube &ref)

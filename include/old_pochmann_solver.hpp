@@ -13,6 +13,8 @@ protected:
     OldPochmannCorners corners_method;
     OldPochmannEdges edges_method;
 
+    // This constructor is made private so derived
+    // solvers can have their own names
     OldPochmannSolver(Cube &ref, const std::string &name)
         : Solver{ref, name},
           corners_method{ref},

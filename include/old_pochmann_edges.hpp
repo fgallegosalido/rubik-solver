@@ -10,12 +10,13 @@
 // Class that implements the old-pochmann method for edges
 class OldPochmannEdges : public Method{
 private:
-    bool parity = false;
+    bool parity = false;    // Keep track of parity
 
 public:
     explicit OldPochmannEdges(Cube &ref)
         : Method{ref, "Old Pochmann Edges"}{}
 
+    // Accessors for the parity
     void change_parity();
     const bool& is_parity() const;
 
