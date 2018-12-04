@@ -54,15 +54,18 @@ target_link_libraries(utilities PRIVATE project_options project_warnings)
 add_library(cube source/cube.cpp)
 target_link_libraries(cube PRIVATE project_options project_warnings)
 
-# Builds the methods for the cube
+# Builds the methods that doesn't solve the cube
 add_library(old_pochmann_corners source/old_pochmann_corners.cpp)
 target_link_libraries(old_pochmann_corners PRIVATE project_options project_warnings
                         cube utilities)
 add_library(old_pochmann_edges source/old_pochmann_edges.cpp)
 target_link_libraries(old_pochmann_edges PRIVATE project_options project_warnings
                         cube utilities)
+add_library(m2_edges source/m2_edges.cpp)
+target_link_libraries(m2_edges PRIVATE project_options project_warnings
+                        cube utilities)
 
-# Builds the solvers for the cube
+# Builds the methods that solve the cube
 add_library(old_pochmann_solver source/old_pochmann_solver.cpp)
 target_link_libraries(old_pochmann_solver PRIVATE project_options project_warnings
                         old_pochmann_corners old_pochmann_edges)

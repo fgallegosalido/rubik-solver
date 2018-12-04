@@ -81,8 +81,37 @@ namespace algorithms::old_pochmann_edges{
     static constexpr const char* LD = "D F L' F'";
 }
 
+namespace algorithms::m2_edges{
+    static constexpr const char* Ex = "M2";
+
+    static constexpr const char* UF = "U2 M' U2 M'";
+    static constexpr const char* FU = "D M' U R2 U' M U R2 U' D' M2";
+    static constexpr const char* DB = "M U2 M U2";
+    static constexpr const char* BD = "M2 D U R2 U' M' U R2 U' M D'";
+
+    static constexpr const char* UR = "R' U R U'";
+    static constexpr const char* RU = "B' R B";
+    static constexpr const char* UB = "";
+    static constexpr const char* BU = "u R' u' U R' U'";
+    static constexpr const char* UL = "L U' L' U";
+    static constexpr const char* LU = "B L' B'";
+    static constexpr const char* FL = "U' L' U";
+    static constexpr const char* LF = "B L2 B'";
+    static constexpr const char* FR = "U R U'";
+    static constexpr const char* RF = "B' R2 B";
+    static constexpr const char* BR = "U R' U'";
+    static constexpr const char* RB = "u R u'";
+    static constexpr const char* BL = "U' L U";
+    static constexpr const char* LB = "u' L' u";
+    static constexpr const char* DR = "U R2 U'";
+    static constexpr const char* RD = "B' R' B";
+    static constexpr const char* DL = "U' L2 U";
+    static constexpr const char* LD = "B L B'";
+}
+
 namespace algorithms::parities{
     static constexpr const char* full_old_pochmann = "U' L U2 L' U2 L F' L' U' L U L F L2 U2";
+    static constexpr const char* old_pochmann_and_m2 = "D' L2 D M2 D' L2 D";
 }
 
 #endif
