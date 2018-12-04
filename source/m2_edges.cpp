@@ -89,7 +89,6 @@ std::string M2Edges::solve(){
     auto solution = orientate_cube();
 
     while (!is_solved()){
-        LOG(cube_ref);
         // First we check that the piece in the buffer is not in its position
         if ((cube_ref.FD()!=green || cube_ref.DF()!=yellow) && (cube_ref.FD()!=yellow || cube_ref.DF()!=green)){
             // Checks the buffer piece and throws it to its correct position

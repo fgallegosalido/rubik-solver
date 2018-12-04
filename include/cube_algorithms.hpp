@@ -111,7 +111,7 @@ namespace algorithms::m2_edges{
 
 namespace algorithms::parities{
     static constexpr const char* full_old_pochmann = "U' L U2 L' U2 L F' L' U' L U L F L2 U2";
-    static constexpr const char* old_pochmann_and_m2 = "D' L2 D M2 D' L2 D";
+    static constexpr const char* old_pochmann_m2 = "D' L2 D M2 D' L2 D";
 }
 
 #endif

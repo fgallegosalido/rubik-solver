@@ -72,6 +72,9 @@ target_link_libraries(old_pochmann_solver PRIVATE project_options project_warnin
 add_library(old_pochmann_blind_solver source/old_pochmann_blind_solver.cpp)
 target_link_libraries(old_pochmann_blind_solver PRIVATE project_options project_warnings
                         old_pochmann_solver)
+add_library(old_pochmann_m2_solver source/old_pochmann_m2_solver.cpp)
+target_link_libraries(old_pochmann_m2_solver PRIVATE project_options project_warnings
+                        old_pochmann_corners m2_edges)
 
 # Builds the executables
 add_executable(debug tests/debug.cpp)
@@ -80,4 +83,4 @@ target_link_libraries(debug PRIVATE project_options project_warnings
 
 add_executable(main source/main.cpp)
 target_link_libraries(main PRIVATE project_options project_warnings
-                        old_pochmann_blind_solver)
+                        old_pochmann_solver old_pochmann_blind_solver old_pochmann_m2_solver)
