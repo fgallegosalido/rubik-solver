@@ -4,7 +4,6 @@
 #include <string>
 
 #include "cube.hpp"
-#include "cube_algorithms.hpp"
 #include "solver.hpp"
 
 // Class that implements the old-pochmann method for edges

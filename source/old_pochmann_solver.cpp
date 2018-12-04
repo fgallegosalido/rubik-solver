@@ -1,4 +1,6 @@
 #include <string>
+
+#include "cube_algorithms.hpp"
 #include "old_pochmann_solver.hpp"
 #include "utilities.hpp"
 

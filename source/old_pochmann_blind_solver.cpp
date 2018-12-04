@@ -1,24 +1,20 @@
 #include <string>
+
+#include "cube_algorithms.hpp"
 #include "old_pochmann_blind_solver.hpp"
 #include "utilities.hpp"
 
 std::string OldPochmannBlindSolver::apply_parity(){
-    std::string ret;
-
     // If there's parity, we solve it
     if (corners_method.is_parity()){
-        ret += "U' ";
-        ret += algorithms::PLL::R1;
-        ret += " U ";
+        cube_ref << algorithms::parities::full_old_pochmann;
 
         // We need to change both parities;
         corners_method.change_parity();
         edges_method.change_parity();
     }
 
-    cube_ref << ret;
-
-    return ret;
+    return algorithms::parities::full_old_pochmann + std::string{" "};
 }
 
 std::string OldPochmannBlindSolver::solve(){

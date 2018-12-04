@@ -5,9 +5,9 @@
 #include <utility>
 #include "cube.hpp"
 
-// This abstract class describes the needed method for a solver
-// The solver requires that the cube is solved once the
-// solve() function is applied
+// This abstract class describes how a solver must be implemented
+// The solver requires a solved state (accessed through the is_solved()
+// function) and a function to solve the cube (solve()).
 class Solver {
 protected:
     Cube &cube_ref;                 // A reference to the cube being solved
@@ -28,7 +28,6 @@ public:
     const std::string& name() const{
         return solver_name;
     }
-
 
     // Every solver must implement its own is_solved() and solve() function
     virtual bool is_solved() const = 0;

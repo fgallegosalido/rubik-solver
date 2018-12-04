@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <array>
 
+#include "cube_algorithms.hpp"
 #include "old_pochmann_corners.hpp"
 #include "utilities.hpp"
 

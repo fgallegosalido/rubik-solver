@@ -81,4 +81,8 @@ namespace algorithms::old_pochmann_edges{
     static constexpr const char* LD = "D F L' F'";
 }
 
+namespace algorithms::parities{
+    static constexpr const char* full_old_pochmann = "U' L U2 L' U2 L F' L' U' L U L F L2 U2";
+}
+
 #endif
