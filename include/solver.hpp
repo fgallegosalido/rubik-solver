@@ -29,11 +29,9 @@ public:
         return solver_name;
     }
 
-    bool is_solved() const{
-        return cube_ref.is_solved();
-    }
 
-    // Every solver must implement its own solve() function
+    // Every solver must implement its own is_solved() and solve() function
+    virtual bool is_solved() const = 0;
     virtual std::string solve() = 0;
 };
 

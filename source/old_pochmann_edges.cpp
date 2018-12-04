@@ -50,17 +50,17 @@ std::string OldPochmannEdges::throw_piece(const std::string &conjugation){
          + inverse_algorithm(conjugation) + " ";
 }
 
-bool OldPochmannEdges::method_finished() const{
+bool OldPochmannEdges::is_solved() const{
     return std::all_of(cube_ref.begin(), cube_ref.end()-1, [](const auto& face){
         return face[1] == face[3] && face[3] == face[5] && face[5] == face[7];
     });
 }
 
-std::string OldPochmannEdges::apply_method(){
+std::string OldPochmannEdges::solve(){
     // Variable that will hold the final solution
     auto solution = orientate_cube();
 
-    while (!method_finished()){
+    while (!is_solved()){
         // First we check that the piece in the buffer is not in its position
         if ((cube_ref.UR()!=white || cube_ref.RU()!=red) && (cube_ref.UR()!=red || cube_ref.RU()!=white)){
             // Checks the buffer piece and throws it to its correct position

@@ -52,17 +52,17 @@ std::string OldPochmannCorners::throw_piece(const std::string &conjugation){
 }
 
 // Just check if the corners are solved
-bool OldPochmannCorners::method_finished() const{
+bool OldPochmannCorners::is_solved() const{
     return std::all_of(cube_ref.begin(), cube_ref.end()-2, [](const auto& face){
         return face[0] == face[2] && face[2] == face[6] && face[6] == face[8];
     });
 }
 
-std::string OldPochmannCorners::apply_method(){
+std::string OldPochmannCorners::solve(){
     // Variable that will hold the final solution
     auto solution = orientate_cube();
 
-    while (!method_finished()){
+    while (!is_solved()){
         std::array<color, 3> buffer = {cube_ref.ULB(), cube_ref.LBU(), cube_ref.BUL()};
 
         // First we check if the piece in the buffer is not in its position

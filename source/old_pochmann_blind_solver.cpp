@@ -24,9 +24,9 @@ std::string OldPochmannBlindSolver::apply_parity(){
 std::string OldPochmannBlindSolver::solve(){
     std::string solution;
 
-    solution += corners_method.apply_method();  // Apply corners method
+    solution += corners_method.solve();  // Apply corners method
     solution += " " + apply_parity();           // Apply the parity
-    solution += edges_method.apply_method();    // Apply edges method
+    solution += edges_method.solve();    // Apply edges method
 
     return cancel_moves(solution);
 }

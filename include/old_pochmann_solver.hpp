@@ -24,6 +24,7 @@ public:
     explicit OldPochmannSolver(Cube &ref)
         : OldPochmannSolver{ref, "Full Old Pochmann"}{}
 
+    bool is_solved() const override;
     std::string solve() override;
 };
 

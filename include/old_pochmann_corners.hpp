@@ -5,16 +5,16 @@
 
 #include "cube.hpp"
 #include "cube_algorithms.hpp"
-#include "method.hpp"
+#include "solver.hpp"
 
 // Class that implements the old-pochmann method for corners
-class OldPochmannCorners : public Method{
+class OldPochmannCorners : public Solver{
 private:
     bool parity = false;    // Keep track of the parity
 
 public:
     explicit OldPochmannCorners(Cube &ref)
-        : Method{ref, "Old Pochmann Corners"}{}
+        : Solver{ref, "Old Pochmann Corners"}{}
 
     // Accessors for the parity
     void change_parity();
@@ -23,8 +23,8 @@ public:
     std::string orientate_cube();
     std::string throw_piece(const std::string &conjugation);
 
-    bool method_finished() const override;
-    std::string apply_method() override;
+    bool is_solved() const override;
+    std::string solve() override;
 };
 
 #endif

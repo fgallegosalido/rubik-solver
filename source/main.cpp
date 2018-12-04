@@ -6,11 +6,11 @@
 
 int main(){
     auto scramble = random_scramble();
+    Cube c{scramble};
 
     std::cout << "Random Scramble: " << scramble             << "\n"
               << c << std::endl;
 
-    Cube c{scramble};
     OldPochmannBlindSolver solver{c};
 
     std::cout << "\nSolving the cube using " << solver.name() << "\n" << std::endl;
