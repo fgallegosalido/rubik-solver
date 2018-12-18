@@ -1,5 +1,6 @@
 #include <array>
 #include <iostream>
+#include <memory>
 
 #include "cube.hpp"
 #include "old_pochmann_solver.hpp"
@@ -14,10 +15,10 @@ int main(){
     std::cout << "Random Scramble: " << scramble << "\n"
               << c << "\n" << std::endl;
 
-    std::array<Solver*, 3> solvers = {
-        new OldPochmannSolver{c},
-        new OldPochmannBlindSolver{c},
-        new OldPochmannM2Solver{c}
+    std::array<std::unique_ptr<Solver>, 3> solvers = {
+        std::make_unique<OldPochmannSolver>(c),
+        std::make_unique<OldPochmannBlindSolver>(c),
+        std::make_unique<OldPochmannM2Solver>(c)
     };
 
     for (const auto& solver : solvers){
