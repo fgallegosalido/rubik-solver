@@ -14,8 +14,6 @@ class Cube{
 private:
     using storage = CubeStorage<color>;
 
-    // This enumerate is used to decide wich direction a face is turned
-    enum direction {clock_wise, anti_clock_wise, two_turns};
 public:
     Cube()                             = default;
     Cube(const Cube& other)            = default;
@@ -279,6 +277,8 @@ private:
     }}};
 
     // Some helper functions
+    // This enumerate is used to decide wich direction a face is turned
+    enum direction {clock_wise, anti_clock_wise, two_turns};
     void turn_face(storage::size_type face, direction dir);
     void read_turn(const std::string &t);
 };
