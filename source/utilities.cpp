@@ -1,14 +1,16 @@
 #include <algorithm>
 #include <array>
+#include <iterator>
 #include <random>
 #include <sstream>
 #include <string>
 #include <cctype>
 
+#include "utilities.hpp"
+
 std::string random_scramble(std::size_t length){
-    std::random_device rd{};
-    std::mt19937 gen{rd()};
-    std::uniform_int_distribution<unsigned> dis(0, 5);
+    std::mt19937 gen{std::random_device{}()};
+    std::uniform_int_distribution<unsigned> dis{0, 5};
 
     std::string scramble;
 
@@ -27,13 +29,29 @@ std::string random_scramble(std::size_t length){
     return scramble;
 }
 
+std::string parse_algorithm(const std::string &alg){
+    std::istringstream ss{alg};
+    std::string ret, turn;
+
+    const char moves[] = {'U', 'F', 'R', 'B', 'L', 'D',
+                          'u', 'f', 'r', 'b', 'l', 'd',
+                          'M', 'E', 'S', 'x', 'y', 'z'};
+
+    while (ss >> turn)
+        if (std::any_of(std::begin(moves), std::end(moves), [&turn](const auto &c){ return c == turn[0]; }))
+            if (turn.size()==1 || (turn.size()==2 && (turn[1]=='\'' || turn[1]=='2')))
+                ret += turn + ' ';
+
+    return ret;
+}
+
 std::string inverse_algorithm(const std::string &alg){
     using namespace std::string_literals;
 
-    std::string alg_copy(alg.size(), ' ');
-    std::reverse_copy(alg.begin(), alg.end(), alg_copy.begin());
+    std::string reverse_alg{parse_algorithm(alg)};
+    std::reverse(reverse_alg.begin(), reverse_alg.end());
 
-    std::stringstream ss(alg_copy);
+    std::istringstream ss{reverse_alg};
     std::string turn, ret;
 
     while (ss >> turn){
@@ -54,7 +72,7 @@ std::string inverse_algorithm(const std::string &alg){
 }
 
 std::string cancel_moves(const std::string &alg){
-    std::stringstream ss(alg);
+    std::istringstream ss{parse_algorithm(alg)};
     std::string to_cancel, turn, ret;
 
     while (ss >> turn){
@@ -99,7 +117,7 @@ std::string cancel_moves(const std::string &alg){
 }
 
 std::size_t turn_count(const std::string &alg){
-    std::stringstream ss(alg);
+    std::istringstream ss{parse_algorithm(alg)};
     std::string t;
     std::size_t total = 0;
 
@@ -124,93 +142,93 @@ std::size_t turn_count(const std::string &alg){
 }
 
 
-/*const color& read_position(const std::string& pos) const{
-    if      (pos == UFL) return UFL();
-    else if (pos == FLU) return FLU();
-    else if (pos == LUF) return LUF();
-    else if (pos == FLU) return FLU();
-    else if (pos == LUF) return LUF();
-}*/
+/* All the algorithm_to_canonical stuff (WIP)
+namespace {
+    std::string turn_to_canonical(const std::string &t){
+        if (t[0]=='U' || t[0]=='R' || t[0]=='F' || t[0]=='D' || t[0]=='B' || t[0]=='L')
+            return t;
+        else if (t == "M")  return "L' R";
+        else if (t == "M'") return "L R'";
+        else if (t == "M2") return "L2 R2";
+        else if (t == "E")  return "D' U";
+        else if (t == "E'") return "D U'";
+        else if (t == "E2") return "D2 U2";
+        else if (t == "S")  return "F' B";
+        else if (t == "S'") return "F B'";
+        else if (t == "S2") return "F2 B2";
+        else if (t == "u")  return "D";
+        else if (t == "u'") return "D'";
+        else if (t == "u2") return "D2";
+        else if (t == "r")  return "L";
+        else if (t == "r'") return "L'";
+        else if (t == "r2") return "L2";
+        else if (t == "f")  return "B";
+        else if (t == "f'") return "B'";
+        else if (t == "f2") return "B2";
+        else if (t == "d")  return "U";
+        else if (t == "d'") return "U'";
+        else if (t == "d2") return "U2";
+        else if (t == "b")  return "F";
+        else if (t == "b'") return "F'";
+        else if (t == "b2") return "F2";
+        else if (t == "l")  return "R";
+        else if (t == "l'") return "R'";
+        else if (t == "l2") return "R2";
+        else return "";
+    }
 
-/* WIP: Translate any algorithm to canonical moves (U, R, F, D, L, B)
-void Cube::turn_to_canonical(std::string& t)
-{
-   auto aux = std::tolower(t[0]);
+    std::string turn_to_relative(const std::string &t, const std::string &rel_turn){
+        if (rel_turn=="M'" || rel_turn=="r" || rel_turn=="l'" || rel_turn=="x"){
 
-   if (aux == 'm' || aux == 'x' || aux == 'r' || aux == 'l'){
-      for (auto i : parity){
-         if (i.first == xy){
+        }
+        else if (rel_turn=="M" || rel_turn=="r'" || rel_turn=="l" || rel_turn=="x'"){
 
-         }
-         else if (i.first == xz){
+        }
+        else if (rel_turn=="M2" || rel_turn=="r2" || rel_turn=="l2" || rel_turn=="x2"){
 
-         }
-      }
-   }
-   else if (aux == 'e' || aux == 'y' || aux == 'u' || aux == 'd'){
-      for (auto i : parity){
-         if (i.first == xy){
+        }
+        else if (rel_turn=="E'" || rel_turn=="u" || rel_turn=="d'" || rel_turn=="y"){
 
-         }
-         else if (i.first == yz){
+        }
+        else if (rel_turn=="E" || rel_turn=="u'" || rel_turn=="d" || rel_turn=="y'"){
 
-         }
-      }
-   }
-   else if (aux == 's' || aux == 'z' || aux == 'f' || aux == 'b'){
-      for (auto i : parity){
-         if (i.first == yz){
+        }
+        else if (rel_turn=="E2" || rel_turn=="u2" || rel_turn=="d2" || rel_turn=="y2"){
 
-         }
-         else if (i.first == xz){
+        }
+        else if (rel_turn=="S" || rel_turn=="f" || rel_turn=="b'" || rel_turn=="z"){
 
-         }
-      }
-   }
-   else{
-      t = "";
-   }
+        }
+        else if (rel_turn=="S'" || rel_turn=="f'" || rel_turn=="b" || rel_turn=="z'"){
+
+        }
+        else if (rel_turn=="S2" || rel_turn=="f2" || rel_turn=="b2" || rel_turn=="z2"){
+
+        }
+        else return "";
+    }
 }
 
-std::string Cube::algorithm_to_canonical(const std::string& alg){
-   std::stringstream ss(alg);
-   std::string ret;
-   std::string turn;
+std::string algorithm_to_canonical(const std::string& alg){
+    std::istringstream ss{parse_algorithm(alg)};
+    std::vector<std::string> moves {std::istream_iterator<std::string>{ss},
+                                    std::istream_iterator<std::string>{}};
+    std::string ret, turn;
 
-   std::vector<std::pair<plane, direction>> parity;
+    while (ss >> turn)
+        moves.push_back(turn);
 
-   while (ss >> turn){
-      if (turn == "M" || turn == "r'" || turn == "l" || turn == "x'"){
-         parity.emplace_back(yz, clock_wise);
-      }
-      else if (turn == "M'" || turn == "r" || turn == "l'" || turn == "x"){
-         parity.emplace_back(yz, anti_clock_wise);
-      }
-      else if (turn == "M2" || turn == "r2" || turn == "l2" || turn == "x2"){
-         parity.emplace_back(yz, two_turns);
-      }
-      else if (turn == "E" || turn == "u'" || turn == "d" || turn == "y'"){
-         parity.emplace_back(xz, clock_wise);
-      }
-      else if (turn == "E'" || turn == "u" || turn == "d'" || turn == "y"){
-         parity.emplace_back(xz, anti_clock_wise);
-      }
-      else if (turn == "E2" || turn == "u2" || turn == "d2" || turn == "y2"){
-         parity.emplace_back(xz, two_turns);
-      }
-      else if (turn == "S" || turn == "f" || turn == "b'" || turn == "z"){
-         parity.emplace_back(xy, clock_wise);
-      }
-      else if (turn == "S'" || turn == "f'" || turn == "b" || turn == "z'"){
-         parity.emplace_back(xy, anti_clock_wise);
-      }
-      else if (turn == "S2" || turn == "f2" || turn == "b2" || turn == "z2"){
-         parity.emplace_back(xy, two_turns);
-      }
+    for (auto it=moves.begin(); it!=moves.end(); ++it){
+        std::transform(std::next(it), moves.end(), std::next(it),
+            [&it](const auto &move){ return turn_to_relative(move, *it); });
+        *it = turn_to_canonical(*it);
+    }
 
-      ret += turn_to_canonical(turn, parity);
-   }
+    for (const auto &move : moves)
+        if (!move.empty())
+            ret += move + ' ';
 
-   return ret;
+    ret.pop_back();
+    return ret;
 }
 */
