@@ -15,28 +15,34 @@ const bool& OldPochmannEdges::is_parity() const{
 }
 
 std::string OldPochmannEdges::orientate_cube(){
-    std::string orientation;
+    if (parity)
+        return "";
+    else{
+        std::string orientation[2];
 
-    if (cube_ref.Fc() == white)
-        orientation += "x ";
-    else if (cube_ref.Rc() == white)
-        orientation += "z' ";
-    else if (cube_ref.Bc() == white)
-        orientation += "x' ";
-    else if (cube_ref.Lc() == white)
-        orientation += "z ";
-    else if (cube_ref.Dc() == white)
-        orientation += "x2 ";
+        if (cube_ref.Fc() == white)
+            orientation[0] += "x ";
+        else if (cube_ref.Rc() == white)
+            orientation[0] += "z' ";
+        else if (cube_ref.Bc() == white)
+            orientation[0] += "x' ";
+        else if (cube_ref.Lc() == white)
+            orientation[0] += "z ";
+        else if (cube_ref.Dc() == white)
+            orientation[0] += "x2 ";
 
-    if (cube_ref.Rc() == green)
-        orientation += "y ";
-    else if (cube_ref.Bc() == green)
-        orientation += "y2 ";
-    else if (cube_ref.Lc() == green)
-        orientation += "y' ";
+        cube_ref << orientation[0];
 
-    cube_ref << orientation;
-    return orientation;
+        if (cube_ref.Rc() == green)
+            orientation[1] += "y ";
+        else if (cube_ref.Bc() == green)
+            orientation[1] += "y2 ";
+        else if (cube_ref.Lc() == green)
+            orientation[1] += "y' ";
+
+        cube_ref << orientation[1];
+        return orientation[0] + orientation[1];
+    }
 }
 
 std::string OldPochmannEdges::throw_piece(const std::string &conjugation){
@@ -52,7 +58,7 @@ std::string OldPochmannEdges::throw_piece(const std::string &conjugation){
 }
 
 bool OldPochmannEdges::is_solved() const{
-    return std::all_of(cube_ref.begin(), cube_ref.end()-1, [](const auto& face){
+    return std::all_of(cube_ref.begin(), std::prev(cube_ref.end()), [](const auto& face){
         return face[1] == face[3] && face[3] == face[5] && face[5] == face[7];
     });
 }

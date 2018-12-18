@@ -933,8 +933,8 @@ Cube& Cube::operator<<(const std::string &alg){
 }
 
 bool Cube::is_solved() const{
-   return std::all_of(cube.begin(), cube.end()-1, [](const auto& f){
-       return std::all_of(f.begin()+1, f.end(), [&first = *f.begin()](const auto& c){
+   return std::all_of(cube.begin(), std::prev(cube.end()), [](const auto& f){
+       return std::all_of(std::next(f.begin()), f.end(), [&first = *f.begin()](const auto& c){
            return first == c;
        });
    });
