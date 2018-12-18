@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "cube.hpp"
+#include "utilities.hpp"
 
 int main(){
     Cube c;
@@ -14,6 +15,9 @@ int main(){
 
         if (t == "q" || t == "quit")
             break;
+
+        t = parse_algorithm(t);
+        std::cout << t << std::endl;
 
         c << t;
     }
