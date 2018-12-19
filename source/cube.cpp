@@ -941,7 +941,8 @@ bool Cube::is_solved() const{
 }
 
 std::ostream& operator<<(std::ostream& out, Cube& c){
-   out   << "      " << colored_square(c(Cube::UP, 0), c(Cube::UP, 1), c(Cube::UP, 2)) << "\n"
+   out   << "\n"
+         << "      " << colored_square(c(Cube::UP, 0), c(Cube::UP, 1), c(Cube::UP, 2)) << "\n"
          << "      " << colored_square(c(Cube::UP, 3), c(Cube::UP, 4), c(Cube::UP, 5)) << "\n"
          << "      " << colored_square(c(Cube::UP, 6), c(Cube::UP, 7), c(Cube::UP, 8)) << "\n"
          << colored_square(c(Cube::LEFT, 0), c(Cube::LEFT, 1), c(Cube::LEFT, 2), c(Cube::FRONT, 0), c(Cube::FRONT, 1), c(Cube::FRONT, 2), c(Cube::RIGHT, 0), c(Cube::RIGHT, 1), c(Cube::RIGHT, 2), c(Cube::BACK, 0), c(Cube::BACK, 1), c(Cube::BACK, 2)) << "\n"
@@ -949,7 +950,7 @@ std::ostream& operator<<(std::ostream& out, Cube& c){
          << colored_square(c(Cube::LEFT, 6), c(Cube::LEFT, 7), c(Cube::LEFT, 8), c(Cube::FRONT, 6), c(Cube::FRONT, 7), c(Cube::FRONT, 8), c(Cube::RIGHT, 6), c(Cube::RIGHT, 7), c(Cube::RIGHT, 8), c(Cube::BACK, 6), c(Cube::BACK, 7), c(Cube::BACK, 8)) << "\n"
          << "      " << colored_square(c(Cube::DOWN, 0), c(Cube::DOWN, 1), c(Cube::DOWN, 2)) << "\n"
          << "      " << colored_square(c(Cube::DOWN, 3), c(Cube::DOWN, 4), c(Cube::DOWN, 5)) << "\n"
-         << "      " << colored_square(c(Cube::DOWN, 6), c(Cube::DOWN, 7), c(Cube::DOWN, 8));
+         << "      " << colored_square(c(Cube::DOWN, 6), c(Cube::DOWN, 7), c(Cube::DOWN, 8)) << "\n";
 
    return out;
 }
