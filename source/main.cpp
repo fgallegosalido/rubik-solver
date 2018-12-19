@@ -6,6 +6,7 @@
 #include "old_pochmann_solver.hpp"
 #include "old_pochmann_blind_solver.hpp"
 #include "old_pochmann_m2_solver.hpp"
+#include "old_pochmann_m2_blind_solver.hpp"
 #include "utilities.hpp"
 
 int main(){
@@ -15,10 +16,11 @@ int main(){
     std::cout << "Random Scramble: " << scramble << "\n"
               << c << "\n" << std::endl;
 
-    std::array<std::unique_ptr<Solver>, 3> solvers = {
+    std::array<std::unique_ptr<Solver>, 4> solvers = {
         std::make_unique<OldPochmannSolver>(c),
         std::make_unique<OldPochmannBlindSolver>(c),
-        std::make_unique<OldPochmannM2Solver>(c)
+        std::make_unique<OldPochmannM2Solver>(c),
+        std::make_unique<OldPochmannM2BlindSolver>(c)
     };
 
     for (const auto& solver : solvers){

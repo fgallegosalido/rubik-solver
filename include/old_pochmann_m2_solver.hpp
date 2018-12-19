@@ -10,7 +10,7 @@
 // This class implements a solver using old-pochmann for corners
 // and M2 for edges.
 class OldPochmannM2Solver : public Solver{
-private:
+protected:
     OldPochmannCorners corners_method;
     M2Edges edges_method;
 
@@ -24,8 +24,6 @@ private:
 public:
     explicit OldPochmannM2Solver(Cube &ref)
         : OldPochmannM2Solver{ref, "Old Pochmann + M2"}{}
-
-    //std::string apply_parity();
 
     bool is_solved() const override;
     std::string solve() override;
