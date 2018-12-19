@@ -13,38 +13,6 @@ const bool& OldPochmannCorners::is_parity() const{
     return parity;
 }
 
-// To apply the method, the cube must be up-white and front-green
-std::string OldPochmannCorners::orientate_cube(){
-    if (parity)
-        return "";
-    else{
-        std::string orientation[2];
-
-        if (cube_ref.Fc() == white)
-            orientation[0] += "x ";
-        else if (cube_ref.Rc() == white)
-            orientation[0] += "z' ";
-        else if (cube_ref.Bc() == white)
-            orientation[0] += "x' ";
-        else if (cube_ref.Lc() == white)
-            orientation[0] += "z ";
-        else if (cube_ref.Dc() == white)
-            orientation[0] += "x2 ";
-
-        cube_ref << orientation[0];
-
-        if (cube_ref.Rc() == green)
-            orientation[1] += "y ";
-        else if (cube_ref.Bc() == green)
-            orientation[1] += "y2 ";
-        else if (cube_ref.Lc() == green)
-            orientation[1] += "y' ";
-
-        cube_ref << orientation[1];
-        return orientation[0] + orientation[1];
-    }
-}
-
 // This function throws the buffer piece to a specific position
 std::string OldPochmannCorners::throw_piece(const std::string &conjugation){
     cube_ref << conjugation
@@ -67,70 +35,69 @@ bool OldPochmannCorners::is_solved() const{
 
 std::string OldPochmannCorners::solve(){
     // Variable that will hold the final solution
-    auto solution = orientate_cube();
+    std::string solution;
 
     while (!is_solved()){
         std::array<color, 3> buffer = {cube_ref.ULB(), cube_ref.LBU(), cube_ref.BUL()};
 
         // First we check if the piece in the buffer is not in its position
-        if (!std::is_permutation(buffer.begin(), buffer.end(), std::array{white, magenta, blue}.begin())){
+        if (!std::is_permutation(buffer.begin(), buffer.end(),
+            std::array{cube_ref.Uc(), cube_ref.Lc(), cube_ref.Bc()}.begin())){
             // Here we check the piece we want to throw and throw it to its
             // correct position
-            switch (buffer[0]){
-                case white:
-                    if (buffer[1]==green && buffer[2]==magenta)
-                        solution += throw_piece(algorithms::old_pochmann_corners::UFL);
-                    else if (buffer[1]==red && buffer[2]==green)
-                        solution += throw_piece(algorithms::old_pochmann_corners::URF);
-                    else
-                        solution += throw_piece(algorithms::old_pochmann_corners::UBR);
-                    break;
-                case green:
-                    if (buffer[1]==magenta && buffer[2]==white)
-                        solution += throw_piece(algorithms::old_pochmann_corners::FLU);
-                    else if (buffer[1]==yellow && buffer[2]==magenta)
-                        solution += throw_piece(algorithms::old_pochmann_corners::FDL);
-                    else if (buffer[1]==red && buffer[2]==yellow)
-                        solution += throw_piece(algorithms::old_pochmann_corners::FRD);
-                    else
-                        solution += throw_piece(algorithms::old_pochmann_corners::FUR);
-                    break;
-                case red:
-                    if (buffer[1]==green && buffer[2]==white)
-                        solution += throw_piece(algorithms::old_pochmann_corners::RFU);
-                    else if (buffer[1]==yellow && buffer[2]==green)
-                        solution += throw_piece(algorithms::old_pochmann_corners::RDF);
-                    else if (buffer[1]==blue && buffer[2]==yellow)
-                        solution += throw_piece(algorithms::old_pochmann_corners::RBD);
-                    else
-                        solution += throw_piece(algorithms::old_pochmann_corners::RUB);
-                    break;
-                case blue:
-                    if (buffer[1]==red && buffer[2]==white)
-                        solution += throw_piece(algorithms::old_pochmann_corners::BRU);
-                    else if (buffer[1]==yellow && buffer[2]==red)
-                        solution += throw_piece(algorithms::old_pochmann_corners::BDR);
-                    else
-                        solution += throw_piece(algorithms::old_pochmann_corners::BLD);
-                    break;
-                case magenta:
-                    if (buffer[1]==white && buffer[2]==green)
-                        solution += throw_piece(algorithms::old_pochmann_corners::LUF);
-                    else if (buffer[1]==green && buffer[2]==yellow)
-                        solution += throw_piece(algorithms::old_pochmann_corners::LFD);
-                    else
-                        solution += throw_piece(algorithms::old_pochmann_corners::LDB);
-                    break;
-                case yellow:
-                    if (buffer[1]==magenta && buffer[2]==green)
-                        solution += throw_piece(algorithms::old_pochmann_corners::DLF);
-                    else if (buffer[1]==green && buffer[2]==red)
-                        solution += throw_piece(algorithms::old_pochmann_corners::DFR);
-                    else if (buffer[1]==red && buffer[2]==blue)
-                        solution += throw_piece(algorithms::old_pochmann_corners::DRB);
-                    else
-                        solution += throw_piece(algorithms::old_pochmann_corners::DBL);
-                    break;
+            if (buffer[0] == cube_ref.Uc()){
+                if (buffer[1]==cube_ref.Fc() && buffer[2]==cube_ref.Lc())
+                    solution += throw_piece(algorithms::old_pochmann_corners::UFL);
+                else if (buffer[1]==cube_ref.Rc() && buffer[2]==cube_ref.Fc())
+                    solution += throw_piece(algorithms::old_pochmann_corners::URF);
+                else
+                    solution += throw_piece(algorithms::old_pochmann_corners::UBR);
+            }
+            else if (buffer[0] == cube_ref.Fc()){
+                if (buffer[1]==cube_ref.Lc() && buffer[2]==cube_ref.Uc())
+                    solution += throw_piece(algorithms::old_pochmann_corners::FLU);
+                else if (buffer[1]==cube_ref.Dc() && buffer[2]==cube_ref.Lc())
+                    solution += throw_piece(algorithms::old_pochmann_corners::FDL);
+                else if (buffer[1]==cube_ref.Rc() && buffer[2]==cube_ref.Dc())
+                    solution += throw_piece(algorithms::old_pochmann_corners::FRD);
+                else
+                    solution += throw_piece(algorithms::old_pochmann_corners::FUR);
+            }
+            else if (buffer[0] == cube_ref.Rc()){
+                if (buffer[1]==cube_ref.Fc() && buffer[2]==cube_ref.Uc())
+                    solution += throw_piece(algorithms::old_pochmann_corners::RFU);
+                else if (buffer[1]==cube_ref.Dc() && buffer[2]==cube_ref.Fc())
+                    solution += throw_piece(algorithms::old_pochmann_corners::RDF);
+                else if (buffer[1]==cube_ref.Bc() && buffer[2]==cube_ref.Dc())
+                    solution += throw_piece(algorithms::old_pochmann_corners::RBD);
+                else
+                    solution += throw_piece(algorithms::old_pochmann_corners::RUB);
+            }
+            else if (buffer[0] == cube_ref.Bc()){
+                if (buffer[1]==cube_ref.Rc() && buffer[2]==cube_ref.Uc())
+                    solution += throw_piece(algorithms::old_pochmann_corners::BRU);
+                else if (buffer[1]==cube_ref.Dc() && buffer[2]==cube_ref.Rc())
+                    solution += throw_piece(algorithms::old_pochmann_corners::BDR);
+                else
+                    solution += throw_piece(algorithms::old_pochmann_corners::BLD);
+            }
+            else if (buffer[0] == cube_ref.Lc()){
+                if (buffer[1]==cube_ref.Uc() && buffer[2]==cube_ref.Fc())
+                    solution += throw_piece(algorithms::old_pochmann_corners::LUF);
+                else if (buffer[1]==cube_ref.Fc() && buffer[2]==cube_ref.Dc())
+                    solution += throw_piece(algorithms::old_pochmann_corners::LFD);
+                else
+                    solution += throw_piece(algorithms::old_pochmann_corners::LDB);
+            }
+            else if (buffer[0] == cube_ref.Dc()){
+                if (buffer[1]==cube_ref.Lc() && buffer[2]==cube_ref.Fc())
+                    solution += throw_piece(algorithms::old_pochmann_corners::DLF);
+                else if (buffer[1]==cube_ref.Fc() && buffer[2]==cube_ref.Rc())
+                    solution += throw_piece(algorithms::old_pochmann_corners::DFR);
+                else if (buffer[1]==cube_ref.Rc() && buffer[2]==cube_ref.Bc())
+                    solution += throw_piece(algorithms::old_pochmann_corners::DRB);
+                else
+                    solution += throw_piece(algorithms::old_pochmann_corners::DBL);
             }
         }
         // If the piece in the buffer is in its position, we just throw it

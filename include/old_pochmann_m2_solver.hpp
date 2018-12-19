@@ -13,14 +13,20 @@ class OldPochmannM2Solver : public Solver{
 private:
     OldPochmannCorners corners_method;
     M2Edges edges_method;
-public:
-    explicit OldPochmannM2Solver(Cube &ref)
-        : Solver{ref, "Old Pochmann + M2"},
+
+    // This constructor is made private so derived
+    // solvers can have their own names
+    OldPochmannM2Solver(Cube &ref, const std::string &name)
+        : Solver{ref, name},
           corners_method{ref},
           edges_method{ref}{}
 
-    std::string apply_parity();
-    
+public:
+    explicit OldPochmannM2Solver(Cube &ref)
+        : OldPochmannM2Solver{ref, "Old Pochmann + M2"}{}
+
+    //std::string apply_parity();
+
     bool is_solved() const override;
     std::string solve() override;
 };

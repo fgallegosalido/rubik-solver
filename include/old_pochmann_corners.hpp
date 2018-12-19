@@ -19,7 +19,6 @@ public:
     void change_parity();
     const bool& is_parity() const;
 
-    std::string orientate_cube();
     std::string throw_piece(const std::string &conjugation);
 
     bool is_solved() const override;
