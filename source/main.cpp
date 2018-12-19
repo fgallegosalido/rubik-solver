@@ -14,7 +14,7 @@ int main(){
     Cube c{scramble};
 
     std::cout << "Random Scramble: " << scramble << "\n"
-              << c << "\n" << std::endl;
+              << c << "\n";
 
     std::array<std::unique_ptr<Solver>, 4> solvers = {
         std::make_unique<OldPochmannSolver>(c),
@@ -24,14 +24,14 @@ int main(){
     };
 
     for (const auto& solver : solvers){
-        std::cout << "\n====================================================\n\n"
-                  << "Solving the cube using " << solver->name() << "\n" << std::endl;
+        std::cout << "====================================================\n\n"
+                  << "Solving the cube using " << solver->name() << "...\n" << std::endl;
 
         auto solution = solver->solve();
 
         std::cout << "Solution: "        << solution             << "\n"
-                  << "Number of turns: " << turn_count(solution) << "\n\n"
-                  << c << std::endl;
+                  << "Number of turns: " << turn_count(solution) << "\n"
+                  << c << "\n";
 
         c << scramble;
     }
