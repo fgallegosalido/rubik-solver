@@ -7,7 +7,7 @@
 #ifdef NDEBUG
     #define LOG(x)
 #else
-    #define LOG(x) std::cout << (x) << std::endl;
+    #define LOG(x) (std::cout << (x) << std::endl)
 #endif
 
 // Returns a new scramble as a string
