@@ -39,11 +39,11 @@ public:
         cube_ref << orientation.first;
 
         if (cube_ref.Rc() == Front)
-            orientation.second += "y ";
+            orientation.second += "y";
         else if (cube_ref.Bc() == Front)
-            orientation.second += "y2 ";
+            orientation.second += "y2";
         else if (cube_ref.Lc() == Front)
-            orientation.second += "y' ";
+            orientation.second += "y'";
 
         cube_ref << orientation.second;
         return orientation.first + orientation.second;
