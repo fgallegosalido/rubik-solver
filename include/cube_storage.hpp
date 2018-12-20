@@ -2,6 +2,7 @@
 #define _CUBE_STORAGE_HPP_
 
 #include <array>
+#include <iostream>
 
 // Class that abstracts the storage of the cube from its functionality
 template<typename T>
@@ -28,10 +29,13 @@ struct CubeStorage{
     static constexpr size_type DOWN  = 5;
 
     // Access a specific sticker by face and position inside the face
-    constexpr typename value_type::reference operator()(size_type face, size_type pos) noexcept {
+    constexpr typename value_type::reference
+    operator()(size_type face, size_type pos) noexcept {
         return data[face][pos];
     }
-    constexpr typename value_type::const_reference operator()(size_type face, size_type pos) const noexcept {
+    
+    constexpr typename value_type::const_reference
+    operator()(size_type face, size_type pos) const noexcept {
         return data[face][pos];
     }
 
