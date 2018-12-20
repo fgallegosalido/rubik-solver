@@ -12,9 +12,11 @@ std::string OldPochmannBlindSolver::apply_parity(){
         // We need to change both parities;
         corners_method.change_parity();
         edges_method.change_parity();
+
+        return algorithms::parities::full_old_pochmann + std::string{" "};
     }
 
-    return algorithms::parities::full_old_pochmann + std::string{" "};
+    return "";
 }
 
 std::string OldPochmannBlindSolver::solve(){
