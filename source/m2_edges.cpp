@@ -129,8 +129,14 @@ std::string M2Edges::solve(){
             // If the buffer piece is in its position, throw in the first
             // unsolved sticker we find
             else{
-                if (cube_ref.FU() != cube_ref.Fc())
-                    solution += throw_piece(algorithms::m2_edges::FU);
+                if (cube_ref.UF() != cube_ref.Uc())
+                    solution += throw_piece(algorithms::m2_edges::UF);
+                else if (cube_ref.UR() != cube_ref.Dc())
+                    solution += throw_piece(algorithms::m2_edges::UR);
+                else if (cube_ref.UB() != cube_ref.Dc())
+                    solution += throw_piece(algorithms::m2_edges::UB);
+                else if (cube_ref.UL() != cube_ref.Dc())
+                    solution += throw_piece(algorithms::m2_edges::UL);
                 else if (cube_ref.RU() != cube_ref.Rc())
                     solution += throw_piece(algorithms::m2_edges::RU);
                 else if (cube_ref.RF() != cube_ref.Rc())
@@ -141,6 +147,12 @@ std::string M2Edges::solve(){
                     solution += throw_piece(algorithms::m2_edges::RB);
                 else if (cube_ref.BD() != cube_ref.Bc())
                     solution += throw_piece(algorithms::m2_edges::BD);
+                else if (cube_ref.BL() != cube_ref.Fc())
+                    solution += throw_piece(algorithms::m2_edges::BL);
+                else if (cube_ref.BU() != cube_ref.Fc())
+                    solution += throw_piece(algorithms::m2_edges::BU);
+                else if (cube_ref.BR() != cube_ref.Fc())
+                    solution += throw_piece(algorithms::m2_edges::BR);
                 else if (cube_ref.LU() != cube_ref.Lc())
                     solution += throw_piece(algorithms::m2_edges::LU);
                 else if (cube_ref.LB() != cube_ref.Lc())
@@ -149,22 +161,10 @@ std::string M2Edges::solve(){
                     solution += throw_piece(algorithms::m2_edges::LD);
                 else if (cube_ref.LF() != cube_ref.Lc())
                     solution += throw_piece(algorithms::m2_edges::LF);
-                else if (cube_ref.DB() != cube_ref.Dc())
-                    solution += throw_piece(algorithms::m2_edges::DB);
                 else if (cube_ref.FL() != cube_ref.Bc())
                     solution += throw_piece(algorithms::m2_edges::FL);
-                else if (cube_ref.FR() != cube_ref.Bc())
-                    solution += throw_piece(algorithms::m2_edges::FR);
-                else if (cube_ref.BU() != cube_ref.Fc())
-                    solution += throw_piece(algorithms::m2_edges::BU);
-                else if (cube_ref.BR() != cube_ref.Fc())
-                    solution += throw_piece(algorithms::m2_edges::BR);
-                else if (cube_ref.BL() != cube_ref.Fc())
-                    solution += throw_piece(algorithms::m2_edges::BL);
-                else if (cube_ref.DR() != cube_ref.Uc())
-                    solution += throw_piece(algorithms::m2_edges::DR);
                 else
-                    solution += throw_piece(algorithms::m2_edges::DL);
+                    solution += throw_piece(algorithms::m2_edges::FR);
             }
         }
         else{
@@ -232,8 +232,14 @@ std::string M2Edges::solve(){
             // If the buffer piece is in its position, throw in the first
             // unsolved sticker we find
             else{
-                if (cube_ref.FU() != cube_ref.Fc())
-                    solution += throw_piece(algorithms::m2_edges::FU);
+                if (cube_ref.UF() != cube_ref.Uc())
+                    solution += throw_piece(algorithms::m2_edges::UF);
+                else if (cube_ref.UR() != cube_ref.Uc())
+                    solution += throw_piece(algorithms::m2_edges::UR);
+                else if (cube_ref.UB() != cube_ref.Uc())
+                    solution += throw_piece(algorithms::m2_edges::UB);
+                else if (cube_ref.UL() != cube_ref.Uc())
+                    solution += throw_piece(algorithms::m2_edges::UL);
                 else if (cube_ref.RU() != cube_ref.Rc())
                     solution += throw_piece(algorithms::m2_edges::RU);
                 else if (cube_ref.RF() != cube_ref.Rc())
@@ -244,6 +250,12 @@ std::string M2Edges::solve(){
                     solution += throw_piece(algorithms::m2_edges::RB);
                 else if (cube_ref.BD() != cube_ref.Bc())
                     solution += throw_piece(algorithms::m2_edges::BD);
+                else if (cube_ref.BL() != cube_ref.Bc())
+                    solution += throw_piece(algorithms::m2_edges::BL);
+                else if (cube_ref.BU() != cube_ref.Bc())
+                    solution += throw_piece(algorithms::m2_edges::BU);
+                else if (cube_ref.BR() != cube_ref.Bc())
+                    solution += throw_piece(algorithms::m2_edges::BR);
                 else if (cube_ref.LU() != cube_ref.Lc())
                     solution += throw_piece(algorithms::m2_edges::LU);
                 else if (cube_ref.LB() != cube_ref.Lc())
@@ -252,22 +264,8 @@ std::string M2Edges::solve(){
                     solution += throw_piece(algorithms::m2_edges::LD);
                 else if (cube_ref.LF() != cube_ref.Lc())
                     solution += throw_piece(algorithms::m2_edges::LF);
-                else if (cube_ref.DB() != cube_ref.Dc())
-                    solution += throw_piece(algorithms::m2_edges::DB);
-                else if (cube_ref.FL() != cube_ref.Fc())
+                else if (cube_ref.FL() != cube_ref.Bc())
                     solution += throw_piece(algorithms::m2_edges::FL);
-                else if (cube_ref.FR() != cube_ref.Fc())
-                    solution += throw_piece(algorithms::m2_edges::FR);
-                else if (cube_ref.BU() != cube_ref.Bc())
-                    solution += throw_piece(algorithms::m2_edges::BU);
-                else if (cube_ref.BR() != cube_ref.Bc())
-                    solution += throw_piece(algorithms::m2_edges::BR);
-                else if (cube_ref.BL() != cube_ref.Bc())
-                    solution += throw_piece(algorithms::m2_edges::BL);
-                else if (cube_ref.DR() != cube_ref.Dc())
-                    solution += throw_piece(algorithms::m2_edges::DR);
-                else
-                    solution += throw_piece(algorithms::m2_edges::DL);
             }
         }
     }
