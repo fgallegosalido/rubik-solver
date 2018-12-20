@@ -108,7 +108,7 @@ std::string cancel_moves(const std::string &alg){
         }
     }
 
-    if (to_cancel.empty())
+    if (!to_cancel.empty())
         ret.pop_back();
     else
         ret += to_cancel;
@@ -144,6 +144,7 @@ std::size_t turn_count(const std::string &alg){
 
 /* All the algorithm_to_canonical stuff (WIP)
 namespace {
+    // This function returns the turn but with the centers not changed
     std::string turn_to_canonical(const std::string &t){
         if (t[0]=='U' || t[0]=='R' || t[0]=='F' || t[0]=='D' || t[0]=='B' || t[0]=='L')
             return t;
@@ -177,6 +178,7 @@ namespace {
         else return "";
     }
 
+    // This function returns the turn but relative to a cube rotation
     std::string turn_to_relative(const std::string &t, const std::string &rel_turn){
         if (rel_turn=="M'" || rel_turn=="r" || rel_turn=="l'" || rel_turn=="x"){
 
@@ -205,7 +207,7 @@ namespace {
         else if (rel_turn=="S2" || rel_turn=="f2" || rel_turn=="b2" || rel_turn=="z2"){
 
         }
-        else return "";
+        else return t; // Canonical turns don't change the centers
     }
 }
 
