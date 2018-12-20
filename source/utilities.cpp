@@ -107,11 +107,11 @@ std::string cancel_moves(const std::string &alg){
                 to_cancel = "";
         }
     }
-
+    
     if (!to_cancel.empty())
-        ret.pop_back();
-    else
         ret += to_cancel;
+    else if (!ret.empty())
+        ret.pop_back();
 
     return ret;
 }
