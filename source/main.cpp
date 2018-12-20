@@ -10,7 +10,7 @@
 #include "utilities.hpp"
 
 int main(){
-    auto scramble = random_scramble();
+    std::string scramble{random_scramble()};
     Cube c{scramble};
 
     std::cout << "Random Scramble: " << scramble << "\n"
