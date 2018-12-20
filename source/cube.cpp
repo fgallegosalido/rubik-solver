@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <sstream>
+#include <utility>
 
 namespace {
     // In this unnamed namespace we define all I need to print the cube.
@@ -47,40 +48,34 @@ Cube::Cube(const std::string& scramble){
 
 // This function turns the 9 squares of a face in a certain direction
 void Cube::turn_face(storage::size_type face, direction dir){
-   switch (dir) {
-      case clock_wise:
-      {
-         auto tmp = cube(face, 0);
-         cube(face, 0) = cube(face, 6);
-         cube(face, 6) = cube(face, 8);
-         cube(face, 8) = cube(face, 2);
-         cube(face, 2) = tmp;
-         tmp = cube(face, 1);
-         cube(face, 1) = cube(face, 3);
-         cube(face, 3) = cube(face, 7);
-         cube(face, 7) = cube(face, 5);
-         cube(face, 5) = tmp; break;
-      }
-      case anti_clock_wise:
-      {
-         auto tmp = cube(face, 0);
-         cube(face, 0) = cube(face, 2);
-         cube(face, 2) = cube(face, 8);
-         cube(face, 8) = cube(face, 6);
-         cube(face, 6) = tmp;
-         tmp = cube(face, 1);
-         cube(face, 1) = cube(face, 5);
-         cube(face, 5) = cube(face, 7);
-         cube(face, 7) = cube(face, 3);
-         cube(face, 3) = tmp; break;
-      }
-      case two_turns:
-         std::swap(cube(face, 0), cube(face, 8));
-         std::swap(cube(face, 1), cube(face, 7));
-         std::swap(cube(face, 2), cube(face, 6));
-         std::swap(cube(face, 3), cube(face, 5));
-         break;
-   }
+    switch (dir) {
+        case clock_wise:
+            cube(face, 0) = std::exchange(cube(face, 6),
+                            std::exchange(cube(face, 8),
+                            std::exchange(cube(face, 2),
+                            cube(face, 0))));
+            cube(face, 1) = std::exchange(cube(face, 3),
+                            std::exchange(cube(face, 7),
+                            std::exchange(cube(face, 5),
+                            cube(face, 1))));
+            break;
+        case anti_clock_wise:
+            cube(face, 0) = std::exchange(cube(face, 2),
+                            std::exchange(cube(face, 8),
+                            std::exchange(cube(face, 6),
+                            cube(face, 0))));
+            cube(face, 1) = std::exchange(cube(face, 5),
+                            std::exchange(cube(face, 7),
+                            std::exchange(cube(face, 3),
+                            cube(face, 1))));
+            break;
+        case two_turns:
+            std::swap(cube(face, 0), cube(face, 8));
+            std::swap(cube(face, 1), cube(face, 7));
+            std::swap(cube(face, 2), cube(face, 6));
+            std::swap(cube(face, 3), cube(face, 5));
+            break;
+     }
 }
 
 // Canonical turns
