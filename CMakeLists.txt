@@ -85,7 +85,7 @@ target_link_libraries(old_pochmann_m2_blind_solver PRIVATE project_options proje
 # Builds the executables
 add_executable(debug tests/debug.cpp)
 target_link_libraries(debug PRIVATE project_options project_warnings
-                        cube utilities)
+                        cube utilities old_pochmann_solver)
 
 add_executable(main source/main.cpp)
 target_link_libraries(main PRIVATE project_options project_warnings
