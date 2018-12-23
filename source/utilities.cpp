@@ -17,8 +17,16 @@ std::string random_scramble(std::size_t length){
     constexpr const char *moves[] = {"U", "F", "R", "B", "L", "D"};
     constexpr const char *dirs[] = {"", "'", "2"};
 
-    for (std::size_t i=0; i<length; ++i){
-        scramble += moves[dis(gen)];
+
+    std::string next_move{moves[dis(gen)]};
+
+    for (std::size_t i=0; i<length-1; ++i){
+        scramble += next_move;
+        next_move = moves[dis(gen)];
+
+        while (scramble.back() == next_move[0])
+            next_move = moves[dis(gen)];
+
         scramble += dirs[dis(gen)%3];
         scramble += " ";
     }
@@ -107,7 +115,7 @@ std::string cancel_moves(const std::string &alg){
                 to_cancel = "";
         }
     }
-    
+
     if (!to_cancel.empty())
         ret += to_cancel;
     else if (!ret.empty())
