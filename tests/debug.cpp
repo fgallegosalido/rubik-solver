@@ -1,10 +1,12 @@
 #include <iostream>
 #include <string>
 #include "cube.hpp"
+#include "old_pochmann_solver.hpp"
 #include "utilities.hpp"
 
 int main(){
     Cube c;
+    OldPochmannSolver solver{c};
     std::string t;
 
     while(true){
@@ -15,10 +17,10 @@ int main(){
 
         if (t == "q" || t == "quit")
             break;
-
-        t = parse_algorithm(t);
-        std::cout << t << std::endl;
-
-        c << t;
+        else if (t == "s" || t == "solve")
+            solver.solve();
+        else {
+            c << t;
+        }
     }
 }
