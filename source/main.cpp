@@ -9,11 +9,21 @@
 #include "old_pochmann_m2_blind_solver.hpp"
 #include "utilities.hpp"
 
-int main(){
-    std::string scramble{random_scramble()};
+int main(const int argc, const char *argv[]){
+    std::string scramble;
+
+    if (argc >= 2){
+        for (int i=1; i<argc; ++i)
+            scramble += argv[i] + std::string{" "};
+
+        scramble = parse_algorithm(scramble);
+    }
+    else
+        scramble = random_scramble();
+
     Cube c{scramble};
 
-    std::cout << "Random Scramble: " << scramble << "\n"
+    std::cout << "Scramble: " << scramble << "\n"
               << c << "\n";
 
     std::array<std::unique_ptr<Solver>, 4> solvers = {
@@ -30,8 +40,7 @@ int main(){
         auto solution = solver->solve();
 
         std::cout << "Solution: "        << solution             << "\n"
-                  << "Number of turns: " << turn_count(solution) << "\n"
-                  << c << "\n";
+                  << "Number of turns: " << turn_count(solution) << "\n";
 
         c << scramble;
     }
