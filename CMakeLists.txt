@@ -64,6 +64,9 @@ target_link_libraries(old_pochmann_edges PRIVATE project_options project_warning
 add_library(m2_edges source/m2_edges.cpp)
 target_link_libraries(m2_edges PRIVATE project_options project_warnings
                         cube utilities)
+add_library(cross source/cross.cpp)
+target_link_libraries(cross PRIVATE project_options project_warnings
+                        cube utilities)
 
 # Builds the methods that solve the cube
 add_library(old_pochmann_solver source/old_pochmann_solver.cpp)
