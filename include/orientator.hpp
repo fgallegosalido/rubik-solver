@@ -10,7 +10,7 @@
 //
 // Keep in mind that, if you choose two non-adjecent colors, the
 // solver, basically, won't work
-template <color Up, color Front>
+template <Cube::cube_size_type Up, Cube::cube_size_type Front>
 class Orientator : public Solver {
 public:
     explicit Orientator(Cube &ref)

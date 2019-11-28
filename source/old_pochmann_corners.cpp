@@ -38,7 +38,11 @@ std::string OldPochmannCorners::solve(){
     std::string solution;
 
     while (!is_solved()){
-        std::array<color, 3> buffer = {cube_ref.ULB(), cube_ref.LBU(), cube_ref.BUL()};
+        std::array buffer = {
+            cube_ref.ULB(),
+            cube_ref.LBU(),
+            cube_ref.BUL()
+        };
 
         // First we check if the piece in the buffer is not in its position
         if (!std::is_permutation(buffer.begin(), buffer.end(),

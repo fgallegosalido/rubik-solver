@@ -1,4 +1,14 @@
 ---
-Checks: '*,-google-*,-llvm-*,-fuchsia-*,-*-braces-around-statements,-readability-named-parameter,-cppcoreguidelines-pro-bounds-constant-array-index,-readability-else-after-return,-cppcoreguidelines-pro-bounds-pointer-arithmetic'
+Checks: '
+    *,-google-*,-llvm-*,-fuchsia-*,
+    -*-braces-around-statements,
+    -cppcoreguidelines-pro-bounds-constant-array-index,
+    -readability-isolate-declaration,
+    -*-magic-numbers,
+    -modernize-use-trailing-return-type,
+    -modernize-use-nodiscard,
+    -*-avoid-c-arrays,
+    -*-non-private-member-variables-in-classes
+'
 HeaderFilterRegex: '.*'
 ...

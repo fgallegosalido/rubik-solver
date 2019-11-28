@@ -1,7 +1,9 @@
+#include "cross.hpp"
+
 #include <deque>
 #include <string>
+#include <string_view>
 
-#include "cross.hpp"
 #include "utilities.hpp"
 
 bool Cross::is_solved() const{
@@ -16,9 +18,11 @@ bool Cross::is_solved() const{
 }
 
 namespace {
-    std::array<const char*, 18> moves{"U", "F", "R", "B", "L", "D",
-                                      "U'", "F'", "R'", "B'", "L'", "D'",
-                                      "U2", "F2", "R2", "B2", "L2", "D2"};
+    constexpr std::array moves{
+        "U", "F", "R", "B", "L", "D",
+        "U'", "F'", "R'", "B'", "L'", "D'",
+        "U2", "F2", "R2", "B2", "L2", "D2"
+    };
 }
 
 void Cross::solve_impl(std::deque<std::string> &solution, unsigned depth){
@@ -42,14 +46,11 @@ void Cross::solve_impl(std::deque<std::string> &solution, unsigned depth){
             cube_ref << move;
             solution.emplace_back(move);
 
-            if (is_solved())
-                break;
-            else{
+            if (!is_solved())
                 solve_impl(solution, depth+1);
 
-                if (is_solved())
-                    break;
-            }
+            if (is_solved())
+                break;
 
             cube_ref << inverse_algorithm(move);
             solution.pop_back();

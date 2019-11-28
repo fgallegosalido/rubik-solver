@@ -26,20 +26,20 @@ std::string M2Edges::throw_piece(const std::string &conjugation){
 
         return conjugation + " ";
     }
-    else{
-        cube_ref << conjugation
-                 << algorithms::m2_edges::Ex
-                 << inverse_algorithm(conjugation);
 
-        change_parity();
+    cube_ref
+        << conjugation
+        << algorithms::m2_edges::Ex
+        << inverse_algorithm(conjugation);
 
-        return conjugation                    + " "
-             + algorithms::m2_edges::Ex       + " "
-             + inverse_algorithm(conjugation) + " ";
-    }
+    change_parity();
+
+    return conjugation                    + " "
+         + algorithms::m2_edges::Ex       + " "
+         + inverse_algorithm(conjugation) + " ";
 }
 
-// Just check if the corners are solved
+// Just check if the edges are solved
 bool M2Edges::is_solved() const{
     if (parity){
         Cube aux{cube_ref};
@@ -47,15 +47,18 @@ bool M2Edges::is_solved() const{
             << algorithms::PLL::T
             << "U' F2";
 
-        return std::all_of(aux.begin(), std::prev(aux.end()), [](const auto& face){
-            return face[1] == face[3] && face[3] == face[5] && face[5] == face[7];
-        });
+        return std::all_of(aux.begin(), std::prev(aux.end()),
+            [](const auto& face){
+                return face[1] == face[3] && face[3] == face[5] && face[5] == face[7];
+            }
+        );
     }
-    else{
-        return std::all_of(cube_ref.begin(), std::prev(cube_ref.end()), [](const auto& face){
+
+    return std::all_of(cube_ref.begin(), std::prev(cube_ref.end()),
+        [](const auto& face){
             return face[1] == face[3] && face[3] == face[5] && face[5] == face[7];
-        });
-    }
+        }
+    );
 }
 
 std::string M2Edges::solve(){

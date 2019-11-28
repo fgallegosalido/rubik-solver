@@ -1,12 +1,13 @@
 #include <iostream>
 #include <string>
 #include "cube.hpp"
+#include "cross.hpp"
 #include "old_pochmann_solver.hpp"
-#include "utilities.hpp"
 
 int main(){
     Cube c;
     OldPochmannSolver solver{c};
+    Cross cross_solver{c};
     std::string t;
 
     while(true){
@@ -19,8 +20,9 @@ int main(){
             break;
         else if (t == "s" || t == "solve")
             solver.solve();
-        else {
+        else if (t == "c" || t == "cross")
+            std::cout << cross_solver.solve() << std::endl;
+        else
             c << t;
-        }
     }
 }

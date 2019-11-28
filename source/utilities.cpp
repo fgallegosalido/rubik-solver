@@ -9,14 +9,16 @@
 #include "utilities.hpp"
 
 std::string random_scramble(std::size_t length){
+    if (length == 0)
+        return std::string{""};
+
     std::mt19937 gen{std::random_device{}()};
     std::uniform_int_distribution<unsigned> dis{0, 5};
 
     std::string scramble;
 
-    constexpr const char *moves[] = {"U", "F", "R", "B", "L", "D"};
-    constexpr const char *dirs[] = {"", "'", "2"};
-
+    constexpr std::array moves = {"U", "F", "R", "B", "L", "D"};
+    constexpr std::array dirs = {"", "'", "2"};
 
     std::string next_move{moves[dis(gen)]};
 
@@ -31,9 +33,7 @@ std::string random_scramble(std::size_t length){
         scramble += " ";
     }
 
-    if (length > 0)
-        scramble.pop_back();
-
+    scramble.pop_back();
     return scramble;
 }
 
@@ -41,9 +41,11 @@ std::string parse_algorithm(const std::string &alg){
     std::istringstream ss{alg};
     std::string ret, turn;
 
-    const char moves[] = {'U', 'F', 'R', 'B', 'L', 'D',
-                          'u', 'f', 'r', 'b', 'l', 'd',
-                          'M', 'E', 'S', 'x', 'y', 'z'};
+    constexpr std::array moves = {
+        'U', 'F', 'R', 'B', 'L', 'D',
+        'u', 'f', 'r', 'b', 'l', 'd',
+        'M', 'E', 'S', 'x', 'y', 'z'
+    };
 
     while (ss >> turn)
         if (std::any_of(std::begin(moves), std::end(moves), [&turn](const auto &c){ return c == turn[0]; }))
