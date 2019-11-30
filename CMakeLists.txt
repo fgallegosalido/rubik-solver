@@ -7,7 +7,7 @@ add_library(project_warnings INTERFACE)
 # Link this 'library' to set the c++ standard / compile-time options requested
 add_library(project_options INTERFACE)
 
-target_compile_features(project_options INTERFACE cxx_std_17)
+target_compile_features(project_options INTERFACE cxx_std_20)
 target_include_directories(project_options INTERFACE include)
 
 target_compile_options(project_warnings INTERFACE
