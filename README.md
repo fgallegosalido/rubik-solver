@@ -14,12 +14,17 @@ Now execute the next commands to compile the executables:
 ```bash
 $> mkdir build
 $> cd build
+$> conan install ..
 $> cmake .. -DCMAKE_BUILD_TYPE=Release
-$> make -j4
+$> make
 ```
 
 # Requirements
-To compile the program, GCC 8.1.0 and CMake 3.12.1 are used. Lower versions of GCC may work, but for CMake, 3.12 is required.
+These are the versions the project is compiled with, but lower versions may work:
+
+* GCC 9.2.1
+* CMake 3.16.0
+* Conan 1.20.4
 
 # Contributions
 You can always collaborate in the project by adding new algorithms, new methods, reporting bugs, etc.
