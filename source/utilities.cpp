@@ -1,3 +1,5 @@
+#include "utilities.hpp"
+
 #include <algorithm>
 #include <array>
 #include <iterator>
@@ -6,7 +8,24 @@
 #include <string>
 #include <cctype>
 
-#include "utilities.hpp"
+bool is_opposite(const std::string &lhs, const std::string &rhs){
+    switch (lhs[0]){
+        case 'U':
+            return rhs[0] == 'D';
+        case 'F':
+            return rhs[0] == 'B';
+        case 'R':
+            return rhs[0] == 'L';
+        case 'B':
+            return rhs[0] == 'F';
+        case 'L':
+            return rhs[0] == 'R';
+        case 'D':
+            return rhs[0] == 'U';
+        default:
+            return false;
+    }
+}
 
 std::string random_scramble(std::size_t length){
     if (length == 0)
