@@ -36,6 +36,18 @@ public:
     static constexpr cube_size_type LEFT  = 4;
     static constexpr cube_size_type DOWN  = 5;
 
+    // Returns the storage to its initial state
+    constexpr void reset() noexcept {
+        m_data = {{
+            {UP   , UP   , UP   , UP   , UP   , UP   , UP   , UP   , UP   },
+            {FRONT, FRONT, FRONT, FRONT, FRONT, FRONT, FRONT, FRONT, FRONT},
+            {RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT, RIGHT},
+            {BACK , BACK , BACK , BACK , BACK , BACK , BACK , BACK , BACK },
+            {LEFT , LEFT , LEFT , LEFT , LEFT , LEFT , LEFT , LEFT , LEFT },
+            {DOWN , DOWN , DOWN , DOWN , DOWN , DOWN , DOWN , DOWN , DOWN }
+        }};
+    }
+
     // Access a specific sticker by face and position inside the face
     [[nodiscard]] constexpr reference
     get(cube_size_type face, face_size_type pos) noexcept {
@@ -98,6 +110,7 @@ public:
     constexpr face_const_reverse_iterator crend(cube_size_type face)   const noexcept{ return m_data[face].crend();   }
 
 private:
+    // This is the representation in memory of the cube
     cube_type m_data{{
         {UP   , UP   , UP   , UP   , UP   , UP   , UP   , UP   , UP   },
         {FRONT, FRONT, FRONT, FRONT, FRONT, FRONT, FRONT, FRONT, FRONT},
@@ -105,7 +118,7 @@ private:
         {BACK , BACK , BACK , BACK , BACK , BACK , BACK , BACK , BACK },
         {LEFT , LEFT , LEFT , LEFT , LEFT , LEFT , LEFT , LEFT , LEFT },
         {DOWN , DOWN , DOWN , DOWN , DOWN , DOWN , DOWN , DOWN , DOWN }
-    }}; // This is the representation in memory of the cube
+    }};
 };
 
 #endif
