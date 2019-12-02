@@ -1,8 +1,9 @@
 #ifndef _CUBE_HPP_
 #define _CUBE_HPP_
 
+#include <algorithm>
+#include <cstdint>
 #include <ostream>
-#include <sstream>
 #include <string>
 #include <string_view>
 
@@ -32,7 +33,7 @@ public:
 
     template <typename CharT>
     explicit constexpr Cube(const CharT *scramble)
-        : Cube{std::basic_string_view<CharT>{scramble}} {}
+        : Cube{} { read_algorithm(scramble); }
 
     // Canonical turns
     void U();
@@ -196,90 +197,86 @@ public:
     [[nodiscard]] bool is_solved() const;
 
     // Reads an algorithm as a string
+    template <typename CharT, typename Traits>
+    constexpr void read_algorithm(const std::basic_string_view<CharT, Traits> &alg){
+        for (auto first = alg.find_first_not_of(' '); first < alg.size();){
+            auto last = std::min(alg.size(), alg.find_first_of(' ', first));
 
-    template <typename CharT, typename Traits, typename Allocator>
-    void read_algorithm(const std::basic_string<CharT, Traits, Allocator> &alg){
-        // We assume each move is space-separated, otherwise it will not be
-        // done. That's why sstream is so convenient
-        // Maybe a more complex parser will be implemented (to allow move
-        // repetitions)
-        std::basic_stringstream<CharT> ss{alg};
-        std::basic_string<CharT, Traits, Allocator> turn;
-
-        while (ss >> turn){
-            if (turn.size() == 1){  // The turn is clock-wise
-                if      (turn[0] == 'U') U();
-                else if (turn[0] == 'R') R();
-                else if (turn[0] == 'F') F();
-                else if (turn[0] == 'D') D();
-                else if (turn[0] == 'B') B();
-                else if (turn[0] == 'L') L();
-                else if (turn[0] == 'M') M();
-                else if (turn[0] == 'E') E();
-                else if (turn[0] == 'S') S();
-                else if (turn[0] == 'u') u();
-                else if (turn[0] == 'r') r();
-                else if (turn[0] == 'f') f();
-                else if (turn[0] == 'd') d();
-                else if (turn[0] == 'b') b();
-                else if (turn[0] == 'l') l();
-                else if (turn[0] == 'x') x();
-                else if (turn[0] == 'y') y();
-                else if (turn[0] == 'z') z();
+            if (last-first == 1){  // The turn is clock-wise
+                if      (alg[first] == 'U') U();
+                else if (alg[first] == 'R') R();
+                else if (alg[first] == 'F') F();
+                else if (alg[first] == 'D') D();
+                else if (alg[first] == 'B') B();
+                else if (alg[first] == 'L') L();
+                else if (alg[first] == 'M') M();
+                else if (alg[first] == 'E') E();
+                else if (alg[first] == 'S') S();
+                else if (alg[first] == 'u') u();
+                else if (alg[first] == 'r') r();
+                else if (alg[first] == 'f') f();
+                else if (alg[first] == 'd') d();
+                else if (alg[first] == 'b') b();
+                else if (alg[first] == 'l') l();
+                else if (alg[first] == 'x') x();
+                else if (alg[first] == 'y') y();
+                else if (alg[first] == 'z') z();
             }
-            else if (turn.size() == 2){
-                if (turn[1] == '\''){   // If the turn is anti-clock-wise
-                    if      (turn[0] == 'U') Uu();
-                    else if (turn[0] == 'R') Rr();
-                    else if (turn[0] == 'F') Ff();
-                    else if (turn[0] == 'D') Dd();
-                    else if (turn[0] == 'B') Bb();
-                    else if (turn[0] == 'L') Ll();
-                    else if (turn[0] == 'M') Mm();
-                    else if (turn[0] == 'E') Ee();
-                    else if (turn[0] == 'S') Ss();
-                    else if (turn[0] == 'u') uu();
-                    else if (turn[0] == 'r') rr();
-                    else if (turn[0] == 'f') ff();
-                    else if (turn[0] == 'd') dd();
-                    else if (turn[0] == 'b') bb();
-                    else if (turn[0] == 'l') ll();
-                    else if (turn[0] == 'x') xx();
-                    else if (turn[0] == 'y') yy();
-                    else if (turn[0] == 'z') zz();
+            else if (last-first == 2){
+                if (alg[first+1] == '\''){   // If the turn is anti-clock-wise
+                    if      (alg[first] == 'U') Uu();
+                    else if (alg[first] == 'R') Rr();
+                    else if (alg[first] == 'F') Ff();
+                    else if (alg[first] == 'D') Dd();
+                    else if (alg[first] == 'B') Bb();
+                    else if (alg[first] == 'L') Ll();
+                    else if (alg[first] == 'M') Mm();
+                    else if (alg[first] == 'E') Ee();
+                    else if (alg[first] == 'S') Ss();
+                    else if (alg[first] == 'u') uu();
+                    else if (alg[first] == 'r') rr();
+                    else if (alg[first] == 'f') ff();
+                    else if (alg[first] == 'd') dd();
+                    else if (alg[first] == 'b') bb();
+                    else if (alg[first] == 'l') ll();
+                    else if (alg[first] == 'x') xx();
+                    else if (alg[first] == 'y') yy();
+                    else if (alg[first] == 'z') zz();
                 }
-                else if (turn[1] == '2'){   // If the turn is 180º
-                    if      (turn[0] == 'U') U2();
-                    else if (turn[0] == 'R') R2();
-                    else if (turn[0] == 'F') F2();
-                    else if (turn[0] == 'D') D2();
-                    else if (turn[0] == 'B') B2();
-                    else if (turn[0] == 'L') L2();
-                    else if (turn[0] == 'M') M2();
-                    else if (turn[0] == 'E') E2();
-                    else if (turn[0] == 'S') S2();
-                    else if (turn[0] == 'u') u2();
-                    else if (turn[0] == 'r') r2();
-                    else if (turn[0] == 'f') f2();
-                    else if (turn[0] == 'd') d2();
-                    else if (turn[0] == 'b') b2();
-                    else if (turn[0] == 'l') l2();
-                    else if (turn[0] == 'x') x2();
-                    else if (turn[0] == 'y') y2();
-                    else if (turn[0] == 'z') z2();
+                else if (alg[first+1] == '2'){   // If the turn is 180º
+                    if      (alg[first] == 'U') U2();
+                    else if (alg[first] == 'R') R2();
+                    else if (alg[first] == 'F') F2();
+                    else if (alg[first] == 'D') D2();
+                    else if (alg[first] == 'B') B2();
+                    else if (alg[first] == 'L') L2();
+                    else if (alg[first] == 'M') M2();
+                    else if (alg[first] == 'E') E2();
+                    else if (alg[first] == 'S') S2();
+                    else if (alg[first] == 'u') u2();
+                    else if (alg[first] == 'r') r2();
+                    else if (alg[first] == 'f') f2();
+                    else if (alg[first] == 'd') d2();
+                    else if (alg[first] == 'b') b2();
+                    else if (alg[first] == 'l') l2();
+                    else if (alg[first] == 'x') x2();
+                    else if (alg[first] == 'y') y2();
+                    else if (alg[first] == 'z') z2();
                 }
             }
+
+            first = alg.find_first_not_of(' ', last);
         }
     }
 
-    template <typename CharT, typename Traits>
-    void read_algorithm(const std::basic_string_view<CharT, Traits> &alg){
-        read_algorithm(std::basic_string<CharT>{alg.data()});
+    template <typename CharT, typename Traits, typename Allocator>
+    void read_algorithm(const std::basic_string<CharT, Traits, Allocator> &alg){
+        read_algorithm(std::basic_string_view<CharT, Traits>{alg});
     }
 
     template <typename CharT>
-    void read_algorithm(const CharT *alg){
-        read_algorithm(std::basic_string<CharT>{alg});
+    constexpr void read_algorithm(const CharT *alg){
+        read_algorithm(std::basic_string_view<CharT>{alg});
     }
 
     // Handy operator to make moves in the cube
@@ -290,14 +287,14 @@ public:
     }
 
     template <typename CharT, typename Traits>
-    Cube& operator<<(const std::basic_string_view<CharT, Traits> &alg){
-        read_algorithm(std::basic_string<CharT, Traits>{alg.data()});
+    constexpr Cube& operator<<(const std::basic_string_view<CharT, Traits> &alg){
+        read_algorithm(alg);
         return *this;
     }
 
     template <typename CharT>
-    Cube& operator<<(const CharT *alg){
-        read_algorithm(std::basic_string<CharT>{alg});
+    constexpr Cube& operator<<(const CharT *alg){
+        read_algorithm(alg);
         return *this;
     }
 

@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <utility>
 
-#include "cube_storage.hpp"
 #include "utilities.hpp"
 
 Cube::Cube(std::size_t length)
