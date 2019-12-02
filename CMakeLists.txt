@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.12)
 project(RubikSolver VERSION 0.0.1 LANGUAGES CXX)
 
+find_program(CCACHE ccache)
+if(CCACHE)
+  set(CMAKE_CXX_COMPILER_LAUNCHER ${CCACHE})
+endif()
+
 # Link this 'library' to use the standard warnings
 add_library(project_warnings INTERFACE)
 
@@ -47,70 +52,42 @@ if(ENABLE_CPPCHECK)
     endif()
 endif()
 
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup(TARGETS SKIP_STD)
+
 # Builds utilities library
-add_library(utilities source/utilities.cpp)
-target_link_libraries(utilities PRIVATE project_options project_warnings)
+add_library(core
+    source/utilities.cpp
+    source/cube.cpp
+)
+target_link_libraries(core PRIVATE
+    project_options
+    project_warnings
+)
 
-# Builds the cube class
-add_library(cube source/cube.cpp)
-target_link_libraries(cube PRIVATE project_options project_warnings utilities)
-
-# Builds the methods that doesn't solve the cube
-add_library(old_pochmann_corners source/old_pochmann_corners.cpp)
-target_link_libraries(old_pochmann_corners PRIVATE
-    project_options
-    project_warnings
-    cube
-    utilities
+add_library(partial_solvers
+    source/old_pochmann_corners.cpp
+    source/old_pochmann_edges.cpp
+    source/m2_edges.cpp
+    source/cross.cpp
 )
-add_library(old_pochmann_edges source/old_pochmann_edges.cpp)
-target_link_libraries(old_pochmann_edges PRIVATE
+target_link_libraries(partial_solvers PUBLIC
     project_options
     project_warnings
-    cube
-    utilities
-)
-add_library(m2_edges source/m2_edges.cpp)
-target_link_libraries(m2_edges PRIVATE
-    project_options
-    project_warnings
-    cube
-    utilities
-)
-add_library(cross source/cross.cpp)
-target_link_libraries(cross PRIVATE
-    project_options
-    project_warnings
-    cube
-    utilities
+    core
 )
 
 # Builds the methods that solve the cube
-add_library(old_pochmann_solver source/old_pochmann_solver.cpp)
-target_link_libraries(old_pochmann_solver PRIVATE
-    project_options
-    project_warnings
-    old_pochmann_corners
-    old_pochmann_edges
+add_library(solvers
+    source/old_pochmann_solver.cpp
+    source/old_pochmann_blind_solver.cpp
+    source/old_pochmann_m2_solver.cpp
+    source/old_pochmann_m2_blind_solver.cpp
 )
-add_library(old_pochmann_blind_solver source/old_pochmann_blind_solver.cpp)
-target_link_libraries(old_pochmann_blind_solver PRIVATE
+target_link_libraries(solvers PUBLIC
     project_options
     project_warnings
-    old_pochmann_solver
-)
-add_library(old_pochmann_m2_solver source/old_pochmann_m2_solver.cpp)
-target_link_libraries(old_pochmann_m2_solver PRIVATE
-    project_options
-    project_warnings
-    old_pochmann_corners
-    m2_edges
-)
-add_library(old_pochmann_m2_blind_solver source/old_pochmann_m2_blind_solver.cpp)
-target_link_libraries(old_pochmann_m2_blind_solver PRIVATE
-    project_options
-    project_warnings
-    old_pochmann_m2_solver
+    partial_solvers
 )
 
 # Builds the executables
@@ -118,18 +95,22 @@ add_executable(debug tests/debug.cpp)
 target_link_libraries(debug PRIVATE
     project_options
     project_warnings
-    cube
-    utilities
-    old_pochmann_solver
-    cross
+    core
+    partial_solvers
+    solvers
 )
 
 add_executable(main source/main.cpp)
 target_link_libraries(main PRIVATE
     project_options
     project_warnings
-    old_pochmann_solver
-    old_pochmann_blind_solver
-    old_pochmann_m2_solver
-    old_pochmann_m2_blind_solver
+    solvers
 )
+
+# Testing
+option(BUILD_TESTS "Builds all the tests" OFF)
+
+if(BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
