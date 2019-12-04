@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <optional>
 #include <ostream>
 #include <string>
 #include <string_view>
@@ -192,6 +193,80 @@ public:
     [[nodiscard]] constexpr const_reference Lc() const{ return get(LEFT , 4); }
     [[nodiscard]] constexpr const_reference Dc() const{ return get(DOWN , 4); }
 
+    template <typename CharT, typename Traits>
+    [[nodiscard]] constexpr std::optional<value_type>
+    operator[](const std::basic_string_view<CharT, Traits> &pos) const{
+        if (pos == "UFL" || pos == "ULF") return UFL();
+        if (pos == "FLU" || pos == "FUL") return FLU();
+        if (pos == "LUF" || pos == "LFU") return LUF();
+        if (pos == "URF" || pos == "UFR") return URF();
+        if (pos == "RFU" || pos == "RUF") return RFU();
+        if (pos == "FUR" || pos == "FRU") return FUR();
+        if (pos == "UBR" || pos == "URB") return UBR();
+        if (pos == "BRU" || pos == "BUR") return BRU();
+        if (pos == "RUB" || pos == "RBU") return RUB();
+        if (pos == "ULB" || pos == "UBL") return ULB();
+        if (pos == "LBU" || pos == "LUB") return LBU();
+        if (pos == "BUL" || pos == "BLU") return BUL();
+        if (pos == "DLF" || pos == "DFL") return DLF();
+        if (pos == "LFD" || pos == "LDF") return LFD();
+        if (pos == "FDL" || pos == "FLD") return FDL();
+        if (pos == "DFR" || pos == "DRF") return DFR();
+        if (pos == "FRD" || pos == "FDR") return FRD();
+        if (pos == "RDF" || pos == "RFD") return RDF();
+        if (pos == "DRB" || pos == "DBR") return DRB();
+        if (pos == "RBD" || pos == "RDB") return RBD();
+        if (pos == "BDR" || pos == "BRD") return BDR();
+        if (pos == "DBL" || pos == "DLB") return DBL();
+        if (pos == "BLD" || pos == "BDL") return BLD();
+        if (pos == "LDB" || pos == "LBD") return LDB();
+
+        if (pos == "UF") return UF();
+        if (pos == "FU") return FU();
+        if (pos == "UR") return UR();
+        if (pos == "RU") return RU();
+        if (pos == "UB") return UB();
+        if (pos == "BU") return BU();
+        if (pos == "UL") return UL();
+        if (pos == "LU") return LU();
+        if (pos == "FL") return FL();
+        if (pos == "LF") return LF();
+        if (pos == "FR") return FR();
+        if (pos == "RF") return RF();
+        if (pos == "BR") return BR();
+        if (pos == "RB") return RB();
+        if (pos == "BL") return BL();
+        if (pos == "LB") return LB();
+        if (pos == "DF") return DF();
+        if (pos == "FD") return FD();
+        if (pos == "DR") return DR();
+        if (pos == "RD") return RD();
+        if (pos == "DB") return DB();
+        if (pos == "BD") return BD();
+        if (pos == "DL") return DL();
+        if (pos == "LD") return LD();
+
+        if (pos == "U") return Uc();
+        if (pos == "F") return Fc();
+        if (pos == "R") return Rc();
+        if (pos == "B") return Bc();
+        if (pos == "L") return Lc();
+        if (pos == "D") return Dc();
+
+        return std::nullopt;
+    }
+
+    template <typename CharT, typename Traits, typename Allocator>
+    [[nodiscard]] constexpr std::optional<value_type>
+    operator[](const std::basic_string<CharT, Traits, Allocator> &pos) const{
+        return this->operator[](std::basic_string_view<CharT, Traits>{pos});
+    }
+
+    template <typename CharT>
+    [[nodiscard]] constexpr std::optional<value_type>
+    operator[](const CharT *pos) const{
+        return this->operator[](std::basic_string_view<CharT>{pos});
+    }
 
     // Check if the cube is solved
     [[nodiscard]] bool is_solved() const;
