@@ -37,7 +37,7 @@ bool Cross::solve_impl(unsigned depth, std::vector<std::string_view> &v, const C
 
         cube_ref = original;
     }
-    else if (v.size() == 0){
+    else if (v.empty()){
         for (const auto &move : moves){
             v.push_back(move);
 
