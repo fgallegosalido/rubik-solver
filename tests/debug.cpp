@@ -18,7 +18,8 @@ int main(){
 
         if (t == "q" || t == "quit")
             break;
-        else if (t == "s" || t == "solve")
+
+        if (t == "s" || t == "solve")
             solver.solve();
         else if (t == "c" || t == "cross")
             std::cout << cross_solver.solve() << std::endl;
