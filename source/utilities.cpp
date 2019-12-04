@@ -8,7 +8,7 @@
 #include <string>
 #include <cctype>
 
-bool is_opposite(const std::string &lhs, const std::string &rhs){
+bool is_opposite(const std::string_view &lhs, const std::string_view &rhs){
     switch (lhs[0]){
         case 'U':
             return rhs[0] == 'D';
