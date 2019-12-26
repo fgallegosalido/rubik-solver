@@ -3,7 +3,7 @@
 
 #include <algorithm>
 #include <cstdint>
-#include <optional>
+#include <exception>
 #include <ostream>
 #include <string>
 #include <string_view>
@@ -194,7 +194,7 @@ public:
     [[nodiscard]] constexpr const_reference Dc() const{ return get(DOWN , 4); }
 
     template <typename CharT, typename Traits>
-    [[nodiscard]] constexpr std::optional<value_type>
+    [[nodiscard]] constexpr value_type
     operator[](const std::basic_string_view<CharT, Traits> &pos) const{
         if (pos == "UFL" || pos == "ULF") return UFL();
         if (pos == "FLU" || pos == "FUL") return FLU();
@@ -253,17 +253,21 @@ public:
         if (pos == "L") return Lc();
         if (pos == "D") return Dc();
 
-        return std::nullopt;
+        throw std::invalid_argument{
+            std::basic_string<CharT, Traits>{'\"'} +
+            pos.data()                             +
+            "\" is not a valid sticker name"
+        };
     }
 
     template <typename CharT, typename Traits, typename Allocator>
-    [[nodiscard]] constexpr std::optional<value_type>
+    [[nodiscard]] constexpr value_type
     operator[](const std::basic_string<CharT, Traits, Allocator> &pos) const{
         return this->operator[](std::basic_string_view<CharT, Traits>{pos});
     }
 
     template <typename CharT>
-    [[nodiscard]] constexpr std::optional<value_type>
+    [[nodiscard]] constexpr value_type
     operator[](const CharT *pos) const{
         return this->operator[](std::basic_string_view<CharT>{pos});
     }
